@@ -385,9 +385,53 @@ Capa de comandos cerrada a nivel de aprendizaje: inspección, escritura raza/cla
 
 ---
 
+`forPlayer` usa `PlayerAction` + `throws CommandSyntaxException` para que `EntityArgument.getPlayer` compile.
+
+---
+
+Mana Crystal y el bloque están en `EXAMPLE_TAB.displayItems`.
+
+---
+
+Título de la tab: `itemGroup.ascendant` → "Ascendant".
+
+---
+
+Icono de la tab: Mana Crystal.
+
+---
+
+Creative tab: `ASCENDANT_TAB` / `ascendant:ascendant_tab`, título e icono de Ascendant.
+
+---
+
+`EXAMPLE_ITEM` ya no está en `displayItems`.
+
+---
+
+`EXAMPLE_ITEM` eliminado.
+
+---
+
+`addCreative` eliminado.
+
+---
+
+Example block/item del MDK eliminados de `AscendantMod`.
+
+---
+
+`AscendantMod` ya no tiene `BLOCKS`/`ITEMS` propios; solo `CREATIVE_MODE_TABS` + registros de `Mod*`.
+
+---
+
+Lang: keys `example_block` / `example_item` eliminadas.
+
+---
+
 # Próxima lección
 
-Meter Mana Crystal y Mana Crystal Block en la creative tab de Ascendant (el tab del MDK aún solo muestra el item de ejemplo).
+Mover la creative tab a `ModCreativeTabs` (mismo patrón que `ModItems` / `ModBlocks`). El `AscendantMod` solo registra el bus.
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 

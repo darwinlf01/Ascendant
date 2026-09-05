@@ -1,7 +1,5 @@
 {
-  "itemGroup.ascendant": "Example Mod Tab",
-  "block.ascendant.example_block": "Example Block",
-  "item.ascendant.example_item": "Example Item",
+  "itemGroup.ascendant": "Ascendant",
 
   "ascendant.configuration.title": "Example Mod Configs",
   "ascendant.configuration.section.ascendant.common.toml": "Example Mod Configs",

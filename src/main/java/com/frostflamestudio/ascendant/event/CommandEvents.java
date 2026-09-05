@@ -1,7 +1,5 @@
 package com.frostflamestudio.ascendant.event;
 
-import java.util.function.ToIntFunction;
-
 import com.frostflamestudio.ascendant.AscendantMod;
 import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.data.Race;
@@ -9,6 +7,7 @@ import com.frostflamestudio.ascendant.system.CharacterSystem;
 import com.frostflamestudio.ascendant.system.MiningSystem;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import net.minecraft.commands.CommandSourceStack;
@@ -84,13 +83,18 @@ public class CommandEvents {
 
     private static int forPlayer(
         CommandContext<CommandSourceStack> ctx,
-        ToIntFunction<ServerPlayer> action
-    ) {
+        PlayerAction action
+    ) throws CommandSyntaxException {
         var player = ctx.getSource().getPlayer();
         if (player == null) {
             return 0;
         }
 
-        return action.applyAsInt(player);
+        return action.run(player);
+    }
+
+    @FunctionalInterface
+    private interface PlayerAction {
+        int run(ServerPlayer player) throws CommandSyntaxException;
     }
 }
