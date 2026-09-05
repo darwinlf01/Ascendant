@@ -4,14 +4,11 @@ import org.slf4j.Logger;
 
 import com.frostflamestudio.ascendant.registry.ModAttachments;
 import com.frostflamestudio.ascendant.registry.ModBlocks;
+import com.frostflamestudio.ascendant.registry.ModCreativeTabs;
 import com.frostflamestudio.ascendant.registry.ModItems;
 import com.mojang.logging.LogUtils;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -21,8 +18,6 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AscendantMod.MODID)
@@ -32,26 +27,11 @@ public class AscendantMod {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
     
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> ASCENDANT_TAB = CREATIVE_MODE_TABS.register("ascendant_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.ascendant")) //The language key for the title of your CreativeModeTab
-            .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> ModItems.MANA_CRYSTAL.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                output.accept(ModItems.MANA_CRYSTAL.get());
-                output.accept(ModItems.MANA_CRYSTAL_BLOCK_ITEM.get());
-            }).build());
-
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public AscendantMod(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-
-        // Register the Deferred Register to the mod event bus so tabs get registered
-        CREATIVE_MODE_TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
@@ -61,6 +41,7 @@ public class AscendantMod {
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
+        ModCreativeTabs.TABS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModAttachments.ATTACHMENTS.register(modEventBus);

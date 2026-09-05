@@ -429,9 +429,17 @@ Lang: keys `example_block` / `example_item` eliminadas.
 
 ---
 
+Creative tab en `ModCreativeTabs`; `AscendantMod` solo hace `TABS.register(modEventBus)`.
+
+---
+
+Imports de `AscendantMod` alineados con lo que el archivo usa.
+
+---
+
 # Próxima lección
 
-Mover la creative tab a `ModCreativeTabs` (mismo patrón que `ModItems` / `ModBlocks`). El `AscendantMod` solo registra el bus.
+`commonSetup` aún loguea el config de ejemplo del MDK. Quitar esas lecturas de `Config` (aún no borrar `Config.java`).
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 
