@@ -491,9 +491,17 @@ Identidad v1 (sin pantalla) cerrada: NONE, comandos, remindIfUnset, lang.
 
 ---
 
+`CharacterCreationScreen` compila (título + `super.render`).
+
+---
+
+`/character` (comando cliente) abre `CharacterCreationScreen`.
+
+---
+
 # Próxima lección
 
-Pantalla cliente vacía `CharacterCreationScreen` (extiende `Screen`). Aún no abrirla ni hacer packets.
+Botón en `init()` con `Button.builder` + `addRenderableWidget`; al pulsar, `onClose()`.
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 
