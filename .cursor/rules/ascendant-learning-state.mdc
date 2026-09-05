@@ -437,9 +437,25 @@ Imports de `AscendantMod` alineados con lo que el archivo usa.
 
 ---
 
+`commonSetup` ya no lee el config de ejemplo.
+
+---
+
+`Config.java` y `registerConfig` eliminados.
+
+---
+
+Pantalla de config del MDK quitada de `AscendantClient`.
+
+---
+
+Keys `ascendant.configuration.*` eliminadas.
+
+---
+
 # Próxima lección
 
-`commonSetup` aún loguea el config de ejemplo del MDK. Quitar esas lecturas de `Config` (aún no borrar `Config.java`).
+Quitar `message.ascendant.mining_xp` del lang (nadie la usa; el HUD usa `mining_level_xp`).
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 

@@ -1,14 +1,6 @@
 {
   "itemGroup.ascendant": "Ascendant",
 
-  "ascendant.configuration.title": "Example Mod Configs",
-  "ascendant.configuration.section.ascendant.common.toml": "Example Mod Configs",
-  "ascendant.configuration.section.ascendant.common.toml.title": "Example Mod Configs",
-  "ascendant.configuration.items": "Item List",
-  "ascendant.configuration.logDirtBlock": "Log Dirt Block",
-  "ascendant.configuration.magicNumberIntroduction": "Magic Number Text",
-  "ascendant.configuration.magicNumber": "Magic Number",
-
   "item.ascendant.mana_crystal": "Mana Crystal",
   "block.ascendant.mana_crystal_block": "Mana Crystal Block",
   "message.ascendant.welcome": "Welcome to Ascendant!",
