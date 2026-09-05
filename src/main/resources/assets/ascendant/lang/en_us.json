@@ -1,0 +1,39 @@
+{
+  "itemGroup.ascendant": "Example Mod Tab",
+  "block.ascendant.example_block": "Example Block",
+  "item.ascendant.example_item": "Example Item",
+
+  "ascendant.configuration.title": "Example Mod Configs",
+  "ascendant.configuration.section.ascendant.common.toml": "Example Mod Configs",
+  "ascendant.configuration.section.ascendant.common.toml.title": "Example Mod Configs",
+  "ascendant.configuration.items": "Item List",
+  "ascendant.configuration.logDirtBlock": "Log Dirt Block",
+  "ascendant.configuration.magicNumberIntroduction": "Magic Number Text",
+  "ascendant.configuration.magicNumber": "Magic Number",
+
+  "item.ascendant.mana_crystal": "Mana Crystal",
+  "block.ascendant.mana_crystal_block": "Mana Crystal Block",
+  "message.ascendant.welcome": "Welcome to Ascendant!",
+  "message.ascendant.mana_crystal_block_broken": "Mana Crystal Block broken!",
+
+  "message.ascendant.race": "Race: %s",
+
+  "message.ascendant.player_class": "Class: %s",
+
+  "message.ascendant.profession": "Profession: %s",
+  "message.ascendant.mining_actions": "Mining actions: %s",
+  "message.ascendant.mining_milestone": "Mining discovered",
+  "message.ascendant.mining_xp": "Mining XP: %s",
+  "message.ascendant.mining_level": "Mining level: %s",
+  "message.ascendant.mining_level_up": "Mining level %s!",
+  "message.ascendant.mining_level_xp": "Mining XP: %s / %s",
+
+  "race.ascendant.none": "None",
+  "race.ascendant.human": "Human",
+
+  "player_class.ascendant.none": "None",
+  "player_class.ascendant.adventurer": "Adventurer",
+
+  "profession.ascendant.none": "None",
+  "profession.ascendant.mining": "Miner"
+}

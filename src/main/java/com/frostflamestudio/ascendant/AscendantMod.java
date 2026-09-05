@@ -1,7 +1,10 @@
-package com.example.examplemod;
+package com.frostflamestudio.ascendant;
 
 import org.slf4j.Logger;
 
+import com.frostflamestudio.ascendant.registry.ModAttachments;
+import com.frostflamestudio.ascendant.registry.ModBlocks;
+import com.frostflamestudio.ascendant.registry.ModItems;
 import com.mojang.logging.LogUtils;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,7 +19,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -32,10 +34,10 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
-@Mod(ExampleMod.MODID)
-public class ExampleMod {
+@Mod(AscendantMod.MODID)
+public class AscendantMod {
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "examplemod";
+    public static final String MODID = "ascendant";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
@@ -65,7 +67,7 @@ public class ExampleMod {
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
-    public ExampleMod(IEventBus modEventBus, ModContainer modContainer) {
+    public AscendantMod(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
@@ -86,6 +88,10 @@ public class ExampleMod {
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
+        ModItems.ITEMS.register(modEventBus);
+        ModBlocks.BLOCKS.register(modEventBus);
+        ModAttachments.ATTACHMENTS.register(modEventBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

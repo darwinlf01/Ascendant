@@ -1,0 +1,422 @@
+---
+description: Estado actual del aprendizaje y punto de continuación del proyecto Ascendant
+alwaysApply: true
+---
+
+# Ascendant — Learning State
+
+Este archivo registra qué fundamentos ya se han estudiado y cuál es el punto actual del tutorial.
+
+No repetir lecciones completadas salvo que el usuario lo solicite o exista una laguna necesaria para continuar.
+
+## Entorno del proyecto
+
+- Minecraft: 1.21.1
+- NeoForge: 21.1.248
+- Java: 21
+- Build system: ModDevGradle
+- Mod name: Ascendant
+- Mod ID: ascendant
+- Base package: com.frostflamestudio.ascendant
+- Main class: AscendantMod
+
+Siempre comprobar el proyecto real antes de asumir que esta información sigue vigente.
+
+---
+
+# Fundamentos completados
+
+## 1. Registries
+
+El usuario ya entiende el concepto básico de DeferredRegister.
+
+Se ha trabajado con:
+
+- DeferredRegister.Items
+- DeferredRegister.Blocks
+- DeferredItem
+- DeferredBlock
+- registro en modEventBus
+- diferencia entre constante Java y registry ID
+
+No volver a explicar DeferredRegister desde cero.
+
+---
+
+## 2. Items
+
+Se creó el item real:
+
+ascendant:mana_crystal
+
+El usuario ya practicó:
+
+- registro de items
+- Item.Properties
+- method chaining
+- stacksTo(...)
+- rarity(...)
+- Rarity enum
+- modelos de item
+- texturas
+- traducciones
+
+Configuración utilizada durante el aprendizaje:
+
+- max stack: 16
+- rarity: UNCOMMON
+
+No volver a enseñar items simples desde cero.
+
+---
+
+## 3. Blocks y BlockItems
+
+Se creó:
+
+ascendant:mana_crystal_block
+
+El usuario ya entiende la diferencia básica entre:
+
+Block
+→ bloque colocado en el mundo
+
+BlockItem
+→ representación del bloque en inventario
+
+Se trabajó con:
+
+- DeferredBlock
+- BlockItem
+- registerSimpleBlock
+- registerSimpleBlockItem
+- BlockBehaviour.Properties
+- strength(...)
+- sound(...)
+- requiresCorrectToolForDrops()
+
+El Mana Crystal Block fue configurado aproximadamente con:
+
+- hardness: 3.0
+- explosion resistance: 6.0
+- SoundType.AMETHYST
+- correct tool required for drops
+
+Comprobar el código real antes de depender de estos valores.
+
+---
+
+## 4. Assets de bloques
+
+El usuario ya trabajó con:
+
+- blockstates
+- models/block
+- models/item
+- textures/block
+- lang
+
+Entiende el flujo:
+
+Block
+→ blockstate
+→ block model
+→ texture
+
+y:
+
+BlockItem
+→ item model
+→ block model
+
+Se utilizó:
+
+minecraft:block/cube_all
+
+No repetir esta explicación salvo que sea necesaria.
+
+---
+
+## 5. Tags
+
+El usuario ya aprendió el concepto básico de block tags.
+
+Se configuró Mana Crystal Block para:
+
+minecraft:mineable/pickaxe
+
+y:
+
+minecraft:needs_iron_tool
+
+El usuario entiende que los tags permiten trabajar con categorías en lugar de hardcodear listas de bloques.
+
+---
+
+## 6. Loot Tables
+
+Se creó una loot table para Mana Crystal Block.
+
+El bloque suelta el propio:
+
+ascendant:mana_crystal_block
+
+cuando se rompe correctamente.
+
+El usuario ya entiende el concepto básico de:
+
+- loot table de bloques
+- pools
+- entries
+- survives_explosion
+
+No repetir desde cero.
+
+---
+
+## 7. Recipes
+
+El usuario ya creó y probó dos recetas data-driven.
+
+Shaped:
+
+9 Mana Crystal
+→ 1 Mana Crystal Block
+
+Shapeless:
+
+1 Mana Crystal Block
+→ 9 Mana Crystal
+
+El usuario entiende:
+
+- crafting_shaped
+- crafting_shapeless
+- pattern
+- key
+- ingredients
+- result
+
+También entiende que muchas mecánicas de contenido deben implementarse mediante datos/JSON cuando Minecraft ya proporciona ese sistema.
+
+---
+
+# Eventos completados
+
+## PlayerEvents
+
+Se creó una clase:
+
+com.frostflamestudio.ascendant.event.PlayerEvents
+
+Se trabajó con:
+
+- @EventBusSubscriber
+- @SubscribeEvent
+- PlayerEvent.PlayerLoggedInEvent
+- event.getEntity()
+- server vs client
+- player.level().isClientSide
+- LOGGER
+- sendSystemMessage
+- Component.literal
+- Component.translatable
+
+Existe una traducción similar a:
+
+message.ascendant.welcome
+→ Welcome to Ascendant!
+
+El usuario entiende la diferencia básica entre:
+
+LOGGER
+→ información para desarrollo
+
+sendSystemMessage
+→ comunicación con el jugador
+
+También entiende que la lógica autoritativa debe ejecutarse en servidor.
+
+---
+
+## BlockEvents
+
+Se creó:
+
+com.frostflamestudio.ascendant.event.BlockEvents
+
+Se está trabajando con:
+
+BlockEvent.BreakEvent
+
+El usuario ya practicó:
+
+- event.getPlayer()
+- event.getState()
+- BlockState
+- Block
+- event.getPos()
+- BlockPos
+- posiciones vecinas con above()
+- level.getBlockState(...)
+- BlockState.isAir()
+- comparación con bloques registrados
+- eventos cancelables
+- event.setCanceled(true)
+- level.setBlockAndUpdate(...)
+
+Las pruebas de cancelación y modificación del mundo fueron temporales y posteriormente eliminadas.
+
+Mantener protección de servidor equivalente a:
+
+if (player.level().isClientSide) {
+    return;
+}
+
+---
+
+# Detección de minería
+
+En BlockEvents se introdujo:
+
+BlockTags.MINEABLE_WITH_PICKAXE
+
+Existe lógica equivalente a:
+
+boolean isPickaxeMineable =
+        blockState.is(BlockTags.MINEABLE_WITH_PICKAXE);
+
+Se comprobó en juego:
+
+Stone
+→ detectado como minería
+
+Dirt
+→ no detectado
+
+Mana Crystal Block
+→ detectado
+
+Esto se está utilizando para introducir progresivamente sistemas de datos asociados al jugador.
+
+---
+
+# Datos del jugador (attachments) — completado
+
+Se usó la API real de NeoForge 21.1.248: Data Attachments.
+
+El usuario ya descubrió, en este orden:
+
+1. `new MiningData()` dentro del evento → el contador siempre es 1
+2. campo estático en `BlockEvents` → el contador sube, pero es global (no por jugador)
+3. `player.getData(ModAttachments.MINING_DATA)` → datos asociados a cada jugador
+4. sin `serialize` → se pierde al salir del mundo
+5. `INBTSerializable` + `AttachmentType.serializable(...)` → sobrevive al logout
+6. sin `copyOnDeath` → se pierde al morir
+7. `.copyOnDeath()` → sobrevive al respawn
+
+Clases reales (comprobar siempre el disco; esto puede quedar atrás):
+
+- `com.frostflamestudio.ascendant.data.MiningData`
+  implementa `INBTSerializable<CompoundTag>`
+  NBT key: `mining_actions`
+- `com.frostflamestudio.ascendant.registry.ModAttachments`
+  `DeferredRegister<AttachmentType<?>>` sobre `NeoForgeRegistries.ATTACHMENT_TYPES`
+  registrado en `modEventBus` desde `AscendantMod`
+  attachment actual: `PLAYER_DATA` (`PlayerData`), no `MINING_DATA`
+- `BlockEvents` detecta pico y llama a `MiningSystem`
+- HUD cliente: `IdentityHud` + `PlayerHud` (`RegisterGuiLayersEvent` + `Dist.CLIENT`)
+- Ya no debe existir `MiningHud.java`
+
+El usuario ya practicó (no repetir desde cero):
+
+- variable local vs campo
+- `AttachmentType` / `IAttachmentHolder` / `getData`
+- `DeferredHolder` genérico (no existe `DeferredAttachment`)
+- `INBTSerializable` / `CompoundTag` / `putInt` / `getInt`
+- `AttachmentType.builder` vs `serializable`
+- `copyOnDeath`
+- HUD cliente / `RegisterGuiLayersEvent` / `GuiGraphics.drawString`
+- `StreamCodec` / `ByteBufCodecs.INT.map` / constructores de `MiningData`
+- `.sync(codec)` = sync inicial (login); mutar el objeto no basta
+- `player.syncData(...)` después de mutar
+
+También se practicó después (no repetir desde cero):
+
+- `.sync((holder, to) -> holder == to, codec)` — sync solo al dueño
+- `PlayerData` como contenedor (composición): `MiningData` + `Race` + `PlayerClass` + `Profession`
+- `MiningSystem` / `CharacterSystem` (lógica fuera de los eventos)
+- nivel y XP de minería derivados (`/` y `%`), `MAX_LEVEL`, `Math.min`
+- HUD partido: `IdentityHud` (raza/clase/profesión) y `PlayerHud` (minería)
+- ids de capa en minúsculas (`identity_hud`, `player_hud`)
+
+Comprobar siempre los archivos reales antes de continuar.
+
+---
+
+# Punto actual exacto
+
+Personaje v1 operativo en código:
+
+- Attachment `PLAYER_DATA` (NBT + `copyOnDeath` + sync al dueño)
+- `PlayerData`: minería, raza, clase, profesión
+- Enums `Race` (`NONE`/`HUMAN`), `PlayerClass` (`NONE`/`ADVENTURER`), `Profession` (`NONE`/`MINING`)
+- `CharacterSystem.applyLoginDefaults`: HUMAN + ADVENTURER si están en NONE; sync solo si cambió
+- `MiningSystem`: tope de nivel, descubrimiento, level-up, `syncData`
+- Cliente: `IdentityHud` + `PlayerHud`
+- Comando `/ascendant` → `CharacterSystem.showIdentity`; `/ascendant mining` → `MiningSystem.showStatus(viewer, target)`
+- `/ascendant race <value>` → `CharacterSystem.setRace` + `syncData` (permiso 2)
+
+---
+
+# Próxima lección
+
+Hito: commit + push a GitHub (falta remoto `origin`).
+
+Después: endurecer `setRace` (`IllegalArgumentException` en lugar de `Exception`).
+
+No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
+
+---
+
+# Sistemas futuros
+
+El aprendizaje eventualmente debe conducir hacia sistemas reales de Ascendant:
+
+Player Data
+→ Race
+→ Class
+→ Profession
+→ Stats
+→ Skills
+→ Mana
+→ Stamina
+→ Progression
+
+Pero NO implementarlos todos ahora.
+
+Construir primero una infraestructura sólida de datos del jugador.
+
+La detección actual de minería eventualmente podrá alimentar:
+
+Mining action
+→ Profession discovery/progress
+→ Profession XP
+→ Player progression
+
+pero todavía no implementar ese sistema completo.
+
+---
+
+# Regla de continuidad
+
+Al iniciar una nueva conversación en Cursor:
+
+1. inspeccionar el repositorio;
+2. leer esta regla;
+3. comprobar el estado real de MiningData y BlockEvents;
+4. identificar cualquier diferencia entre este documento y el código;
+5. confiar en el código actual si existe discrepancia;
+6. continuar desde la próxima lección pendiente;
+7. dar una sola tarea al usuario;
+8. esperar su confirmación antes de avanzar.
