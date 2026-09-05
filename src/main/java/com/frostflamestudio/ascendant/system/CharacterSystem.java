@@ -10,24 +10,6 @@ import net.minecraft.world.entity.player.Player;
 
 
 public class CharacterSystem {
-    public static void applyLoginDefaults(Player player) {
-        var playerData = player.getData(ModAttachments.PLAYER_DATA);
-        boolean changed = false;
-
-        if (playerData.getRace() == Race.NONE) {
-            playerData.setRace(Race.HUMAN);
-            changed = true;
-        }
-
-        if (playerData.getPlayerClass() == PlayerClass.NONE) {
-            playerData.setPlayerClass(PlayerClass.ADVENTURER);
-            changed = true;
-        }
-
-        if(changed) {
-            player.syncData(ModAttachments.PLAYER_DATA);
-        }
-    }
 
     public static void showIdentity(Player player) {
         var playerData = player.getData(ModAttachments.PLAYER_DATA);

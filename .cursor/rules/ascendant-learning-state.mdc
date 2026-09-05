@@ -469,9 +469,21 @@ Descripción del mod en `neoforge.mods.toml` actualizada.
 
 ---
 
+`authors="FrostFlame Studio"` en `neoforge.mods.toml`.
+
+---
+
+Login ya no llama `applyLoginDefaults`; `NONE` persiste.
+
+---
+
+`applyLoginDefaults` eliminado.
+
+---
+
 # Próxima lección
 
-Campo `authors` en el mismo toml (ahora está comentado: `#authors=""`).
+Aviso al login si raza o clase son `NONE` (`CharacterSystem.remindIfUnset` + key de lang). Sin pantalla de creación.
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 
