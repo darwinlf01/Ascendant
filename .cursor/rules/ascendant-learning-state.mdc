@@ -365,15 +365,13 @@ Personaje v1 operativo en código:
 - `MiningSystem`: tope de nivel, descubrimiento, level-up, `syncData`
 - Cliente: `IdentityHud` + `PlayerHud`
 - Comando `/ascendant` → `CharacterSystem.showIdentity`; `/ascendant mining` → `MiningSystem.showStatus(viewer, target)`
-- `/ascendant race <value>` → `CharacterSystem.setRace` + `syncData` (permiso 2)
+- `/ascendant race <value>` / `/ascendant class <value>` → `setRace` / `setPlayerClass` + `syncData` + Tab (`.suggests`)
 
 ---
 
 # Próxima lección
 
-Hito: commit + push a GitHub (falta remoto `origin`).
-
-Después: endurecer `setRace` (`IllegalArgumentException` en lugar de `Exception`).
+Extraer el bucle duplicado de `.suggests` a un método en `CommandEvents` (`addEnumSuggestions`).
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 

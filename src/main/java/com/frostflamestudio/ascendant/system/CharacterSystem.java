@@ -54,11 +54,23 @@ public class CharacterSystem {
             player.syncData(ModAttachments.PLAYER_DATA);
             return true;
         }
-        catch (Exception e){
+        catch (IllegalArgumentException e){
             player.sendSystemMessage(Component.literal("No valid option"));
             return false;
         }
+    }
 
-
+    public static boolean setPlayerClass(Player player, String value) {
+        try{
+            PlayerClass playerClass = PlayerClass.valueOf(value.toUpperCase());
+            var playerData = player.getData(ModAttachments.PLAYER_DATA);
+            playerData.setPlayerClass(playerClass);
+            player.syncData(ModAttachments.PLAYER_DATA);
+            return true;
+        }
+        catch (IllegalArgumentException e){
+            player.sendSystemMessage(Component.literal("No valid option"));
+            return false;
+        }
     }
 }
