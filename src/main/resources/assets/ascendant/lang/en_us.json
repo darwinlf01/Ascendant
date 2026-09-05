@@ -13,7 +13,6 @@
   "message.ascendant.profession": "Profession: %s",
   "message.ascendant.mining_actions": "Mining actions: %s",
   "message.ascendant.mining_milestone": "Mining discovered",
-  "message.ascendant.mining_xp": "Mining XP: %s",
   "message.ascendant.mining_level": "Mining level: %s",
   "message.ascendant.mining_level_up": "Mining level %s!",
   "message.ascendant.mining_level_xp": "Mining XP: %s / %s",

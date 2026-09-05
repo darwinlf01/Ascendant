@@ -453,9 +453,25 @@ Keys `ascendant.configuration.*` eliminadas.
 
 ---
 
+`message.ascendant.mining_xp` eliminada.
+
+---
+
+`onClientSetup` de demo eliminado.
+
+---
+
+`AscendantClient` solo es el `@Mod` de cliente (sin EventBusSubscriber vacío).
+
+---
+
+Descripción del mod en `neoforge.mods.toml` actualizada.
+
+---
+
 # Próxima lección
 
-Quitar `message.ascendant.mining_xp` del lang (nadie la usa; el HUD usa `mining_level_xp`).
+Campo `authors` en el mismo toml (ahora está comentado: `#authors=""`).
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 
