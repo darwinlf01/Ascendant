@@ -481,9 +481,13 @@ Login ya no llama `applyLoginDefaults`; `NONE` persiste.
 
 ---
 
+`remindIfUnset` al login si raza o clase son `NONE`. Identidad v1 sin pantalla: comandos + aviso.
+
+---
+
 # Próxima lección
 
-Aviso al login si raza o clase son `NONE` (`CharacterSystem.remindIfUnset` + key de lang). Sin pantalla de creación.
+Sustituir `Component.literal("No valid option")` en `setRace` / `setPlayerClass` por una key translatable.
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 

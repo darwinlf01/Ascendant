@@ -6,6 +6,8 @@
   "message.ascendant.welcome": "Welcome to Ascendant!",
   "message.ascendant.mana_crystal_block_broken": "Mana Crystal Block broken!",
 
+  "message.ascendant.choose_identity": "Choose a race and class with /ascendant race and /ascendant class",
+
   "message.ascendant.race": "Race: %s",
 
   "message.ascendant.player_class": "Class: %s",

@@ -55,4 +55,12 @@ public class CharacterSystem {
             return false;
         }
     }
+
+    public static void remindIfUnset(Player player) {
+        var playerData = player.getData(ModAttachments.PLAYER_DATA);
+
+        if (playerData.getRace() == Race.NONE || playerData.getPlayerClass() == PlayerClass.NONE) {
+            player.sendSystemMessage(Component.translatable("message.ascendant.choose_identity"));
+        }
+    }
 }

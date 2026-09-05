@@ -1,6 +1,7 @@
 package com.frostflamestudio.ascendant.event;
 
 import com.frostflamestudio.ascendant.AscendantMod;
+import com.frostflamestudio.ascendant.system.CharacterSystem;
 
 import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -19,5 +20,7 @@ public class PlayerEvents {
 
         player.sendSystemMessage(Component.translatable("message.ascendant.welcome"));
         AscendantMod.LOGGER.info("Player logged in: {}", player.getName().getString());
+
+        CharacterSystem.remindIfUnset(player);
     }
 }
