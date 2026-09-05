@@ -37,7 +37,7 @@ public class CharacterSystem {
             return true;
         }
         catch (IllegalArgumentException e){
-            player.sendSystemMessage(Component.literal("No valid option"));
+            player.sendSystemMessage(Component.translatable("message.ascendant.invalid_option"));
             return false;
         }
     }
@@ -51,7 +51,7 @@ public class CharacterSystem {
             return true;
         }
         catch (IllegalArgumentException e){
-            player.sendSystemMessage(Component.literal("No valid option"));
+            player.sendSystemMessage(Component.translatable("message.ascendant.invalid_option"));
             return false;
         }
     }

@@ -485,9 +485,15 @@ Login ya no llama `applyLoginDefaults`; `NONE` persiste.
 
 ---
 
+Errores de `/ascendant race|class` usan `message.ascendant.invalid_option`.
+
+Identidad v1 (sin pantalla) cerrada: NONE, comandos, remindIfUnset, lang.
+
+---
+
 # Próxima lección
 
-Sustituir `Component.literal("No valid option")` en `setRace` / `setPlayerClass` por una key translatable.
+Pantalla cliente vacía `CharacterCreationScreen` (extiende `Screen`). Aún no abrirla ni hacer packets.
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 
