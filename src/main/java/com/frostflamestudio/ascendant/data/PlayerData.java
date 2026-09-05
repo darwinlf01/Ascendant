@@ -13,22 +13,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
     private Profession profession = Profession.NONE;
 
     public PlayerData (){
-        this(new MiningData());
-    }
-
-    public PlayerData (MiningData miningData) {
-        this.miningData = miningData;
-    }
-
-    public PlayerData (MiningData miningData, Profession profession) {
-        this.miningData = miningData;
-        this.profession = profession;
-    }
-
-    public PlayerData (MiningData miningData, Profession profession, Race race) {
-        this.miningData = miningData;
-        this.profession = profession;
-        this.race = race;
+        this(new MiningData(), Profession.NONE, Race.NONE, PlayerClass.NONE);
     }
 
     public PlayerData (MiningData miningData, Profession profession, Race race, PlayerClass playerClass) {

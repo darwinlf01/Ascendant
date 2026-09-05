@@ -369,9 +369,25 @@ Personaje v1 operativo en código:
 
 ---
 
+DRY de sugerencias: `CommandEvents.addEnumSuggestions(SuggestionsBuilder, Enum<?>[])`.
+
+---
+
+`PlayerData` solo tiene constructor vacío (attachments) y el de 4 args (`STREAM_CODEC`).
+
+---
+
+`CommandEvents.forPlayer` extrae el null-check; identidad y `/ascendant mining` (sin target) ya lo usan.
+
+---
+
+Capa de comandos cerrada a nivel de aprendizaje: inspección, escritura raza/clase, Tab, `forPlayer`, `addEnumSuggestions`.
+
+---
+
 # Próxima lección
 
-Extraer el bucle duplicado de `.suggests` a un método en `CommandEvents` (`addEnumSuggestions`).
+Meter Mana Crystal y Mana Crystal Block en la creative tab de Ascendant (el tab del MDK aún solo muestra el item de ejemplo).
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 
