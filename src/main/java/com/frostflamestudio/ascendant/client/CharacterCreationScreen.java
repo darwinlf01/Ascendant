@@ -2,12 +2,14 @@ package com.frostflamestudio.ascendant.client;
 
 import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.data.Race;
+import com.frostflamestudio.ascendant.network.SelectIdentityPayload;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class CharacterCreationScreen extends Screen {
     private Race selectedRace = Race.NONE;
@@ -47,7 +49,12 @@ public class CharacterCreationScreen extends Screen {
         );
 
         this.addRenderableWidget(
-            Button.builder(Component.translatable("gui.done"), button -> this.onClose())
+            Button.builder(Component.translatable("gui.done"), button -> {
+                PacketDistributor.sendToServer(
+                    new SelectIdentityPayload(this.selectedRace, this.selectedClass)
+                );
+                this.onClose();
+                })
                 .bounds(this.width / 2 - 75, this.height / 2 + 24, 150, 20)
                 .build()
         );

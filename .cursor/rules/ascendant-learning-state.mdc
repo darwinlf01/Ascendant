@@ -511,9 +511,37 @@ Botón Done con `addRenderableWidget` + `onClose()`.
 
 ---
 
+Payload `SelectIdentityPayload`: record + `TYPE` + `STREAM_CODEC` + `type()`. Aún no registrado ni enviado.
+
+---
+
+Payload `SelectIdentityPayload`: record + `TYPE` + `STREAM_CODEC` + `type()`. Aún no registrado ni enviado.
+
+---
+
+`NetworkEvents`: `RegisterPayloadHandlersEvent` + `playToServer`; handler solo log. Aún no se envía desde Done.
+
+---
+
+`NetworkEvents`: `RegisterPayloadHandlersEvent` + `playToServer`; handler solo log. Aún no se envía desde Done.
+
+---
+
+Done envía `SelectIdentityPayload` con `PacketDistributor.sendToServer` y luego `onClose()`. Handler aún no escribe `PlayerData`.
+
+---
+
+Done envía `SelectIdentityPayload` con `PacketDistributor.sendToServer` y luego `onClose()`. Handler aún no escribe `PlayerData`.
+
+---
+
+`CharacterSystem.selectIdentity` escribe raza+clase y un `syncData`. `NetworkEvents` lo llama con `context.player()`. Circuito pantalla → servidor → HUD cerrado.
+
+---
+
 # Próxima lección
 
-Payload cliente→servidor (`CustomPacketPayload` + `playToServer`). Aún no enviar desde Done.
+Inicializar `selectedRace` / `selectedClass` desde `PlayerData` del cliente al abrir la pantalla (no siempre `NONE`).
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 

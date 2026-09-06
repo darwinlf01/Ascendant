@@ -63,4 +63,11 @@ public class CharacterSystem {
             player.sendSystemMessage(Component.translatable("message.ascendant.choose_identity"));
         }
     }
+
+    public static void selectIdentity(Player player, Race race, PlayerClass playerClass) {
+        var playerData = player.getData(ModAttachments.PLAYER_DATA);
+        playerData.setRace(race);
+        playerData.setPlayerClass(playerClass);
+        player.syncData(ModAttachments.PLAYER_DATA);
+    }
 }
