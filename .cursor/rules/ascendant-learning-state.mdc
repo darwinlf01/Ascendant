@@ -499,9 +499,21 @@ Identidad v1 (sin pantalla) cerrada: NONE, comandos, remindIfUnset, lang.
 
 ---
 
+Botón Done con `addRenderableWidget` + `onClose()`.
+
+---
+
+`CycleButton` de raza: campo `selectedRace`, key `screen.ascendant.race`, estado **local**. Done aún solo cierra.
+
+---
+
+`CycleButton` de clase: campo `selectedClass`, key `screen.ascendant.player_class`, estado **local**. Done aún solo cierra.
+
+---
+
 # Próxima lección
 
-Botón en `init()` con `Button.builder` + `addRenderableWidget`; al pulsar, `onClose()`.
+Payload cliente→servidor (`CustomPacketPayload` + `playToServer`). Aún no enviar desde Done.
 
 No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
 

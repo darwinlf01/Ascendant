@@ -29,5 +29,7 @@
   "profession.ascendant.none": "None",
   "profession.ascendant.mining": "Miner",
 
-  "screen.ascendant.character_creation": "Character Creation"
+  "screen.ascendant.character_creation": "Character Creation",
+  "screen.ascendant.race": "Race",
+  "screen.ascendant.player_class": "Class"
 }
