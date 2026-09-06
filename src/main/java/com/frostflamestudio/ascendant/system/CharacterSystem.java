@@ -66,6 +66,17 @@ public class CharacterSystem {
 
     public static void selectIdentity(Player player, Race race, PlayerClass playerClass) {
         var playerData = player.getData(ModAttachments.PLAYER_DATA);
+
+        if (playerData.getRace() != Race.NONE && playerData.getPlayerClass() != PlayerClass.NONE) {
+            player.sendSystemMessage(Component.translatable("message.ascendant.identity_locked"));
+            return;
+        }
+
+        if (race == Race.NONE || playerClass == PlayerClass.NONE) {
+            player.sendSystemMessage(Component.translatable("message.ascendant.identity_required"));
+            return;
+        }
+
         playerData.setRace(race);
         playerData.setPlayerClass(playerClass);
         player.syncData(ModAttachments.PLAYER_DATA);

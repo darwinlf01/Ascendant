@@ -8,6 +8,8 @@
 
   "message.ascendant.choose_identity": "Choose a race and class with /ascendant race and /ascendant class",
   "message.ascendant.invalid_option": "No valid option",
+  "message.ascendant.identity_locked": "Identity already chosen",
+  "message.ascendant.identity_required": "Choose a race and a class",
 
   "message.ascendant.race": "Race: %s",
 
@@ -22,9 +24,16 @@
 
   "race.ascendant.none": "None",
   "race.ascendant.human": "Human",
+  "race.ascendant.elf": "Elf",
+  "race.ascendant.dwarf": "Dwarf",
 
   "player_class.ascendant.none": "None",
-  "player_class.ascendant.adventurer": "Adventurer",
+  "player_class.ascendant.light_warrior": "Warrior (Light)",
+  "player_class.ascendant.medium_warrior": "Warrior (Medium)",
+  "player_class.ascendant.heavy_warrior": "Warrior (Heavy)",
+  "player_class.ascendant.archer": "Archer",
+  "player_class.ascendant.caster": "Caster",
+  "player_class.ascendant.healer": "Healer",
 
   "profession.ascendant.none": "None",
   "profession.ascendant.mining": "Miner",

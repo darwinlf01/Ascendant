@@ -7,7 +7,9 @@ import net.minecraft.network.codec.StreamCodec;
 
 public enum Race {
     NONE,
-    HUMAN;
+    HUMAN,
+    ELF,
+    DWARF;
 
     public static final StreamCodec<ByteBuf, Race> STREAM_CODEC =
 

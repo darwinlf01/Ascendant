@@ -3,7 +3,9 @@ package com.frostflamestudio.ascendant.client;
 import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.data.Race;
 import com.frostflamestudio.ascendant.network.SelectIdentityPayload;
+import com.frostflamestudio.ascendant.registry.ModAttachments;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
@@ -17,6 +19,14 @@ public class CharacterCreationScreen extends Screen {
 
     public CharacterCreationScreen() {
         super(Component.translatable("screen.ascendant.character_creation"));
+
+        var player = Minecraft.getInstance().player;
+
+        if (player != null) {
+            var playerData = player.getData(ModAttachments.PLAYER_DATA);
+            this.selectedRace = playerData.getRace();
+            this.selectedClass = playerData.getPlayerClass();
+        }
     }
 
     @Override protected void init() {

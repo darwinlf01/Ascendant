@@ -7,7 +7,12 @@ import net.minecraft.network.codec.StreamCodec;
 
 public enum PlayerClass {
     NONE,
-    ADVENTURER;
+    LIGHT_WARRIOR,
+    MEDIUM_WARRIOR,
+    HEAVY_WARRIOR,
+    ARCHER,
+    CASTER,
+    HEALER;
 
     public static final StreamCodec<ByteBuf, PlayerClass> STREAM_CODEC =
 

@@ -539,11 +539,29 @@ Done envía `SelectIdentityPayload` con `PacketDistributor.sendToServer` y luego
 
 ---
 
+# Visión de producto (identidad)
+
+No es un menú `/character` reutilizable. Flujo previsto:
+
+Jugador nuevo (`NONE`) → dimensión tutorial → sala de espera → avatar del sistema → raza inicial + clase inicial + equipo inicial.
+
+Razas v1: `NONE`, `HUMAN`, `ELF`, `DWARF`.
+
+Clases v1: `NONE`, `LIGHT_WARRIOR`, `MEDIUM_WARRIOR`, `HEAVY_WARRIOR`, `ARCHER`, `CASTER`, `HEALER`.
+
+`/character` + `CharacterCreationScreen` son un **prototipo de red** (payload + `selectIdentity`), no la UX final. No convertir esa pantalla en editor permanente.
+
+No implementar aún: dimensión, NPC, kits de equipo, tutorial completo.
+
+---
+
+`selectIdentity`: candado si ya hay raza+clase; rechazo si la elección trae `NONE`; si no, escribe y `syncData`.
+
+---
+
 # Próxima lección
 
-Inicializar `selectedRace` / `selectedClass` desde `PlayerData` del cliente al abrir la pantalla (no siempre `NONE`).
-
-No implementar pantalla de creación de personaje, stats, combat ni más profesiones todavía.
+Kit inicial al confirmar (`grantStarterKit` + `ItemStack` / `player.addItem`). Placeholders vanilla, no equipo custom. Solo en el camino que sí guarda.
 
 ---
 
