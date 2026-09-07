@@ -541,17 +541,42 @@ Done envía `SelectIdentityPayload` con `PacketDistributor.sendToServer` y luego
 
 # Visión de producto (identidad)
 
-No es un menú `/character` reutilizable. Flujo previsto:
+Tutorial en dimensión aparte: sala de espera → avatar → **clase** + kit del mod. Raza v1: siempre **humano** (no se elige).
 
-Jugador nuevo (`NONE`) → dimensión tutorial → sala de espera → avatar del sistema → raza inicial + clase inicial + equipo inicial.
+Razas en código objetivo: `NONE` (aún no inicializado) + `HUMAN`. Elfo/enano **fuera** de v1.
 
-Razas v1: `NONE`, `HUMAN`, `ELF`, `DWARF`.
+Humano v1 = **Human (G)**: raza de mundos recién iniciados, perfil equilibrado. Bono por nivel: **+1 a todos los stats** + **1 punto libre**. El `(G)` es grado; no hay campo `Grade` en código todavía.
 
-Clases v1: `NONE`, `LIGHT_WARRIOR`, `MEDIUM_WARRIOR`, `HEAVY_WARRIOR`, `ARCHER`, `CASTER`, `HEALER`.
+Al subir de nivel (futuro): bono de **raza** + bono de **clase** (no se sustituyen).
 
-`/character` + `CharacterCreationScreen` son un **prototipo de red** (payload + `selectIdentity`), no la UX final. No convertir esa pantalla en editor permanente.
+Clases: `LIGHT_WARRIOR`, `MEDIUM_WARRIOR`, `HEAVY_WARRIOR`, `ARCHER`, `CASTER`, `HEALER` (+ `NONE` hasta el avatar).
 
-No implementar aún: dimensión, NPC, kits de equipo, tutorial completo.
+Stats por nivel (aún no en código): Agi, End, Str, Vit, Tough, Per, Int, Wis, Will + punto libre. Bonos distintos por clase.
+
+Kits: ítems **del mod**, calidad común/inferior. No vanilla de Minecraft como equipo final. No copiar textos de wikis de otros juegos al lang del mod.
+
+Texturas de ítem: SpriteCook (spritecook.ai). Al pedir un PNG, dar theme + prompt + settings. Theme y settings fijos abajo.
+
+**Theme (guardar una vez, reutilizar):**
+"Newly initiated fantasy world tutorial. Common, inferior starting gear for balanced humans. Earthy woods, dull iron, worn leather and plain cloth. Functional, slightly scuffed, not heroic or legendary. Daylight, clear silhouette. Matches chunky 16x16 Minecraft item icons: isolated object, no character, no scene."
+
+**Settings fijos para ítems `item/generated`:**
+- Herramienta: Generate Sprites / image editor (no Character creator)
+- Mode: Pixel Art (no Detailed)
+- Resolution: 16px
+- Background: Transparent
+- Colors: 16
+- Mismos settings en todo el set
+
+**Prompt de ítem:** objeto aislado, vista 3/4 tipo icono de Minecraft, llena el canvas, sin suelo ni manos.
+
+`/character` es prototipo de red, no la sala.
+
+UX final de clase (aún no): en el mundo, **plataformas** con cada clase en **holograma**; el jugador se acerca/interactúa y confirma con un **popup**. El popup solo confirma; la autoridad sigue siendo `selectIdentity`. No es un menú de `CycleButton`.
+
+`WOODEN_STAFF`: más adelante sostenerlo **como arma** (modelo `item/handheld` y/o `SwordItem`). Hoy es un `Item` plano (`generated`).
+
+No implementar aún: dimensión, NPC, stats, skills, hologramas, `SwordItem`/`BowItem`/`ArmorItem`/`ShieldItem`, tutorial de bestias.
 
 ---
 
@@ -559,9 +584,131 @@ No implementar aún: dimensión, NPC, kits de equipo, tutorial completo.
 
 ---
 
+`applyDefaultRace` al login: `NONE` → `HUMAN` + `syncData`. `remindIfUnset` solo mira clase.
+
+---
+
+Prototipo `/character`: solo ciclo de clase; payload manda `Race.HUMAN`.
+
+---
+
+`SelectIdentityPayload` solo `PlayerClass`. `selectIdentity(Player, PlayerClass)`: candado/NONE por clase; `setRace(HUMAN)` en servidor.
+
+---
+
+Primer ítem de kit: `WOODEN_STAFF` (`wooden_staff`), `stacksTo(1)`, tab + lang + modelo + textura SpriteCook.
+
+---
+
+`grantStarterKit`: `CASTER` recibe `WOODEN_STAFF` tras un `selectIdentity` válido. Otras clases aún sin kit.
+
+---
+
+`grantStarterKit`: `CASTER` recibe `WOODEN_STAFF` tras un `selectIdentity` válido. `break` en el case. Otras clases aún sin kit.
+
+---
+
+`grantStarterKit`: `LIGHT_WARRIOR` → `STEEL_DAGGER`; `CASTER` → `WOODEN_STAFF`.
+
+---
+
+`grantStarterKit`: `LIGHT_WARRIOR` → daga; `ARCHER` → arco; `CASTER` → bastón. Tab incluye el arco.
+
+---
+
+`grantStarterKit`: ligero daga, medio espada larga, arquero arco, caster bastón. Tab incluye la espada larga.
+
+---
+
+Kit pesado: `HEATER_SHIELD` en tab y en `HEAVY_WARRIOR`. Falta la espada de una mano.
+
+---
+
+Kit pesado: `HEATER_SHIELD` + `STEEL_ARMING_SWORD` en `HEAVY_WARRIOR`. Tab al día.
+
+---
+
+Kit healer: `HOLY_SEAL` en tab y `HEALER`. Las 6 clases tienen arma/catalizador placeholder.
+
+---
+
+`ARCHER` recibe arco + `STEEL_DAGGER` (mismo ítem que el ligero).
+
+---
+
+`ARCHER_CLOAK` id `archer_cloak` (no reutilizar `holy_seal`). Arquero: arco + daga + capa.
+
+---
+
+`CASTER_ROBE` id correcto; caster recibe bastón + túnica.
+
+---
+
+`HEALER_ROBE` + PNG. Healer: sello + túnica.
+
+---
+
+`LIGHT_LEATHER` + PNG. Ligero: daga + cuero.
+
+---
+
+`RIVETED_LEATHER` + PNG. Medio: espada larga + cuero remachado.
+
+---
+
+`IRON_MAIL` + PNG. Pesado: escudo + espada + malla.
+
+Kit v1 (placeholders, no ArmorItem/SwordItem/BowItem): cada clase tiene arma/catalizador y prenda.
+
+---
+
+`LEATHER_QUIVER` + lang válida. Arquero: arco, daga, capa, carcaj.
+
+Kit v1 de placeholders cerrado (armas/catalizadores + prendas + carcaj). Aún no ArmorItem / SwordItem / BowItem / hologramas.
+
+---
+
+`PlayerClass.playable()` sin `NONE`. `/character` inicializa `NONE` → `LIGHT_WARRIOR` en el campo local. Race import muerto quitado.
+
+---
+
+`message.ascendant.choose_identity` → Choose a class with `/character`.
+
+Identidad prototipo + kit v1 (placeholders) cerrados. Siguiente capa de producto: pose de arma, `ArmorItem`, sala holográfica — de a una.
+
+---
+
+`wooden_staff.json` usa `item/handheld`. El PNG del bastón está en la diagonal inversa a las armas vanilla (empuñadura abajo-izquierda).
+
+---
+
+`wooden_staff.png` en diagonal vanilla; `handheld` se ve bien en primera persona.
+
+---
+
+`steel_dagger`: `handheld` + PNG en diagonal vanilla.
+
+---
+
+`steel_longsword.json` usa `handheld`. PNG ya correcto.
+
+---
+
+`steel_arming_sword.json` usa `handheld`. PNG ya correcto.
+
+---
+
+`wooden_bow.json`: `generated` + `display` vanilla (1ª/3ª persona). Sin `overrides` de `pull`. Se ve bien en mano.
+
+Escudo/prendas/sello/carcaj: se quedan en `generated`. El `display` del escudo vanilla es para un modelo 3D `builtin/entity`, no para un PNG 16x16.
+
+Poses v1 de armas/arco cerradas.
+
+---
+
 # Próxima lección
 
-Kit inicial al confirmar (`grantStarterKit` + `ItemStack` / `player.addItem`). Placeholders vanilla, no equipo custom. Solo en el camino que sí guarda.
+Hito: commit de fuente (sin `run/` ni `build/`) y push a GitHub. Después: `SwordItem`, `ArmorItem` o sala holográfica — de a una.
 
 ---
 

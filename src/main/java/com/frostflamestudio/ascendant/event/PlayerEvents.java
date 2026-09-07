@@ -21,6 +21,8 @@ public class PlayerEvents {
         player.sendSystemMessage(Component.translatable("message.ascendant.welcome"));
         AscendantMod.LOGGER.info("Player logged in: {}", player.getName().getString());
 
+        CharacterSystem.applyDefaultRace(player);
+
         CharacterSystem.remindIfUnset(player);
     }
 }

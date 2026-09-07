@@ -24,4 +24,15 @@ public enum PlayerClass {
     public Component getDisplayName() {
         return Component.translatable("player_class.ascendant." + name().toLowerCase());
     }
+
+    public static PlayerClass[] playable() {
+        return new PlayerClass[] {
+            LIGHT_WARRIOR, 
+            MEDIUM_WARRIOR, 
+            HEAVY_WARRIOR, 
+            ARCHER, 
+            CASTER, 
+            HEALER
+        };
+    }
 }

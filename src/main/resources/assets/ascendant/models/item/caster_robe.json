@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "ascendant:item/mana_crystal"
+        "layer0": "ascendant:item/caster_robe"
     }
 }

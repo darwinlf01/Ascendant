@@ -1,6 +1,7 @@
 package com.frostflamestudio.ascendant.event;
 
 import com.frostflamestudio.ascendant.AscendantMod;
+import com.frostflamestudio.ascendant.data.Race;
 import com.frostflamestudio.ascendant.network.SelectIdentityPayload;
 import com.frostflamestudio.ascendant.system.CharacterSystem;
 
@@ -23,10 +24,10 @@ public class NetworkEvents {
     public static void onSelectIdentity(SelectIdentityPayload payload, IPayloadContext context) {
         AscendantMod.LOGGER.info(
             "Select identity: {} {}",
-            payload.race(),
+            Race.HUMAN,
             payload.playerClass()
         );
 
-        CharacterSystem.selectIdentity(context.player(), payload.race(), payload.playerClass());
+        CharacterSystem.selectIdentity(context.player(), payload.playerClass());
     }
 }

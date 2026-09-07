@@ -2,14 +2,30 @@
   "itemGroup.ascendant": "Ascendant",
 
   "item.ascendant.mana_crystal": "Mana Crystal",
+  "item.ascendant.wooden_staff": "Wooden Staff",
+  "item.ascendant.steel_dagger": "Steel Dagger",
+  "item.ascendant.wooden_bow": "Wooden Bow",
+  "item.ascendant.steel_longsword": "Steel Longsword",
+  "item.ascendant.heater_shield": "Heater Shield",
+  "item.ascendant.steel_arming_sword": "Steel Arming Sword",
+  "item.ascendant.holy_seal": "Holy Seal",
+  "item.ascendant.archer_cloak": "Archer's Cloak",
+  "item.ascendant.caster_robe": "Caster's Robe",
+  "item.ascendant.healer_robe": "Healer's Robe",
+  "item.ascendant.light_leather": "Light Leather",
+  "item.ascendant.riveted_leather": "Riveted Leather",
+  "item.ascendant.iron_mail": "Iron Mail",
+  "item.ascendant.leather_quiver": "Leather Quiver",
+
   "block.ascendant.mana_crystal_block": "Mana Crystal Block",
+
   "message.ascendant.welcome": "Welcome to Ascendant!",
   "message.ascendant.mana_crystal_block_broken": "Mana Crystal Block broken!",
 
-  "message.ascendant.choose_identity": "Choose a race and class with /ascendant race and /ascendant class",
+  "message.ascendant.choose_identity": "Choose a class with /character",
   "message.ascendant.invalid_option": "No valid option",
   "message.ascendant.identity_locked": "Identity already chosen",
-  "message.ascendant.identity_required": "Choose a race and a class",
+  "message.ascendant.identity_required": "Choose a class",
 
   "message.ascendant.race": "Race: %s",
 
@@ -24,8 +40,6 @@
 
   "race.ascendant.none": "None",
   "race.ascendant.human": "Human",
-  "race.ascendant.elf": "Elf",
-  "race.ascendant.dwarf": "Dwarf",
 
   "player_class.ascendant.none": "None",
   "player_class.ascendant.light_warrior": "Warrior (Light)",
