@@ -22,7 +22,7 @@
   "message.ascendant.welcome": "Welcome to Ascendant!",
   "message.ascendant.mana_crystal_block_broken": "Mana Crystal Block broken!",
 
-  "message.ascendant.choose_identity": "Choose a class with /character",
+  "message.ascendant.choose_identity": "Right-click a colored pad to choose a class.",
   "message.ascendant.invalid_option": "No valid option",
   "message.ascendant.identity_locked": "Identity already chosen",
   "message.ascendant.identity_required": "Choose a class",
@@ -37,6 +37,11 @@
   "message.ascendant.mining_level": "Mining level: %s",
   "message.ascendant.mining_level_up": "Mining level %s!",
   "message.ascendant.mining_level_xp": "Mining XP: %s / %s",
+  "message.ascendant.avatar.line0": "This world is newly initiated. You are human. Listen, then choose a class.",
+  "message.ascendant.avatar.line1": "Those colored floors are the six classes. You will stand on one and confirm later.",
+  "message.ascendant.avatar.line2": "When you are ready, turn around and look at the pads. I have no more to say for now.",
+  "message.ascendant.avatar.line3": "Go to a colored pad when you are ready to choose.",
+  "message.ascendant.talk_to_guide": "Talk to the Guide.",
 
   "race.ascendant.none": "None",
   "race.ascendant.human": "Human",
@@ -54,5 +59,8 @@
 
   "screen.ascendant.character_creation": "Character Creation",
   "screen.ascendant.race": "Race",
-  "screen.ascendant.player_class": "Class"
+  "screen.ascendant.player_class": "Class",
+  "screen.ascendant.confirm_class": "Choose %s?",
+
+  "npc.ascendant.avatar": "Guide"
 }

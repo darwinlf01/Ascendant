@@ -6,6 +6,7 @@ import com.frostflamestudio.ascendant.data.Race;
 import com.frostflamestudio.ascendant.data.PlayerClass;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -62,7 +63,12 @@ public class CharacterSystem {
         var playerData = player.getData(ModAttachments.PLAYER_DATA);
 
         if (playerData.getPlayerClass() == PlayerClass.NONE) {
-            player.sendSystemMessage(Component.translatable("message.ascendant.choose_identity"));
+            if (playerData.getAvatarLine() < 4) {
+                player.sendSystemMessage(Component.translatable("message.ascendant.talk_to_guide"));
+            }
+            else {
+                player.sendSystemMessage(Component.translatable("message.ascendant.choose_identity"));
+            }
         }
     }
 
@@ -92,6 +98,10 @@ public class CharacterSystem {
         playerData.setPlayerClass(playerClass);
         player.syncData(ModAttachments.PLAYER_DATA);
         grantStarterKit(player, playerClass);
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            TutorialSystem.sendToTutorial(serverPlayer);
+        }
     }
 
     private static void grantStarterKit(Player player, PlayerClass playerClass) {

@@ -541,7 +541,12 @@ Done envía `SelectIdentityPayload` con `PacketDistributor.sendToServer` y luego
 
 # Visión de producto (identidad)
 
-Tutorial en dimensión aparte: sala de espera → avatar → **clase** + kit del mod. Raza v1: siempre **humano** (no se elige).
+Tutorial en **dos** dimensiones:
+
+1. `ascendant:waiting` — sala pequeña: avatar (lo básico del mod) + elección de clase (hologramas/plataformas).
+2. `ascendant:tutorial` — tutorial en acción (aún no el terreno).
+
+Luego Overworld. Raza v1: siempre **humano** (no se elige).
 
 Razas en código objetivo: `NONE` (aún no inicializado) + `HUMAN`. Elfo/enano **fuera** de v1.
 
@@ -576,7 +581,7 @@ UX final de clase (aún no): en el mundo, **plataformas** con cada clase en **ho
 
 `WOODEN_STAFF`: más adelante sostenerlo **como arma** (modelo `item/handheld` y/o `SwordItem`). Hoy es un `Item` plano (`generated`).
 
-No implementar aún: dimensión, NPC, stats, skills, hologramas, `SwordItem`/`BowItem`/`ArmorItem`/`ShieldItem`, tutorial de bestias.
+No implementar aún: NPC, stats, skills, hologramas, `SwordItem`/`BowItem`/`ArmorItem`/`ShieldItem`, tutorial de bestias. Dimensión tutorial: en curso (JSON primero).
 
 ---
 
@@ -708,7 +713,7 @@ Poses v1 de armas/arco cerradas.
 
 # Próxima lección
 
-Hito: commit de fuente (sin `run/` ni `build/`) y push a GitHub. Después: `SwordItem`, `ArmorItem` o sala holográfica — de a una.
+Login: Guide vs clase según `avatarLine`. Pads tras intro. Siguiente: sync de `avatarLine` (`STREAM_CODEC` + `syncData`) para el popup en cliente.
 
 ---
 

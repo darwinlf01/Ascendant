@@ -5,6 +5,7 @@ import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.data.Race;
 import com.frostflamestudio.ascendant.system.CharacterSystem;
 import com.frostflamestudio.ascendant.system.MiningSystem;
+import com.frostflamestudio.ascendant.system.TutorialSystem;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -71,6 +72,14 @@ public class CommandEvents {
                                     CharacterSystem.setPlayerClass(player, StringArgumentType.getString(ctx, "value")) ? 1 : 0
                                 ))
                         )
+                )
+                .then(
+                    Commands.literal("waiting")
+                        .requires(source -> source.hasPermission(2))
+                        .executes(ctx -> forPlayer(ctx, player -> {
+                            TutorialSystem.sendToWaiting(player);
+                            return 1;
+                        }))
                 )
         );
     }

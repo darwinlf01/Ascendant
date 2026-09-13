@@ -3,6 +3,7 @@ package com.frostflamestudio.ascendant.data;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
@@ -12,15 +13,18 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
     private PlayerClass playerClass = PlayerClass.NONE;
     private Profession profession = Profession.NONE;
 
+    private int avatarLine = 0;
+
     public PlayerData (){
-        this(new MiningData(), Profession.NONE, Race.NONE, PlayerClass.NONE);
+        this(new MiningData(), Profession.NONE, Race.NONE, PlayerClass.NONE, 0);
     }
 
-    public PlayerData (MiningData miningData, Profession profession, Race race, PlayerClass playerClass) {
+    public PlayerData (MiningData miningData, Profession profession, Race race, PlayerClass playerClass, int avatarLine) {
         this.miningData = miningData;
         this.profession = profession;
         this.race = race;
         this.playerClass = playerClass;
+        this.avatarLine = avatarLine;
     }
 
     @Override
@@ -30,6 +34,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         tag.putString("race", race.name());
         tag.putString("player_class", playerClass.name());
         tag.putString("profession", profession.name());
+        tag.putInt("avatar_line", avatarLine);
         return tag;
     }
     @Override
@@ -38,6 +43,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         var raceName = nbt.getString("race");
         var className = nbt.getString("player_class");
         var professionName = nbt.getString("profession");
+        avatarLine = nbt.getInt("avatar_line");
 
         if (raceName.isEmpty()) {
             race = Race.NONE;
@@ -72,6 +78,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
             PlayerData::getRace,
             PlayerClass.STREAM_CODEC,
             PlayerData::getPlayerClass,
+            ByteBufCodecs.INT,
+            PlayerData::getAvatarLine,
             PlayerData::new
         );
 
@@ -134,5 +142,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         }
 
         return getMiningActions() % MiningData.DISCOVERY_THRESHOLD;
+    }
+
+    //avatar
+    public int getAvatarLine() {
+        return this.avatarLine;
+    }
+
+    public void setAvatarLine(int line) {
+        this.avatarLine = line;
     }
 }

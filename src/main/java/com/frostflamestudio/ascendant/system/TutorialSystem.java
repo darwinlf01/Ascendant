@@ -1,0 +1,215 @@
+package com.frostflamestudio.ascendant.system;
+
+import com.frostflamestudio.ascendant.AscendantMod;
+import com.frostflamestudio.ascendant.data.PlayerClass;
+import com.frostflamestudio.ascendant.registry.ModAttachments;
+
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.phys.AABB;
+
+public class TutorialSystem {
+    public static final ResourceKey<Level> WAITING = ResourceKey.create(
+        Registries.DIMENSION,
+        ResourceLocation.fromNamespaceAndPath(AscendantMod.MODID, "waiting")
+    );
+
+    public static final ResourceKey<Level> TUTORIAL = ResourceKey.create(
+        Registries.DIMENSION,
+        ResourceLocation.fromNamespaceAndPath(AscendantMod.MODID, "tutorial")
+    );
+
+    private static final String AVATAR_TAG = "ascendant_avatar";
+
+    public static void placeWaitingRoom(ServerLevel level) {
+        for (int x = -8; x <= 8; x++) {
+            for (int y = 0; y <= 6; y++) {
+                for (int z = -8; z <= 8; z++) {
+                    boolean isShell =
+                        x == -8 || x == 8
+                        || z == -8 || z == 8
+                        || y == 0
+                        || y == 6;
+
+                    if (isShell) {
+                        level.setBlockAndUpdate(
+                            new BlockPos(x, y, z),
+                            Blocks.WHITE_CONCRETE.defaultBlockState()
+                        );
+                    }
+                }
+            }
+        }
+
+        level.setBlockAndUpdate(
+            new BlockPos(0, 6, 0),
+            Blocks.SEA_LANTERN.defaultBlockState()
+        );
+        level.setBlockAndUpdate(new BlockPos( 7, 6,  7), Blocks.SEA_LANTERN.defaultBlockState());
+        level.setBlockAndUpdate(new BlockPos( 7, 6, -7), Blocks.SEA_LANTERN.defaultBlockState());
+        level.setBlockAndUpdate(new BlockPos(-7, 6,  7), Blocks.SEA_LANTERN.defaultBlockState());
+        level.setBlockAndUpdate(new BlockPos(-7, 6, -7), Blocks.SEA_LANTERN.defaultBlockState());
+
+        //pads
+        level.setBlockAndUpdate(
+            new BlockPos(-5, 0, -5),
+            Blocks.LIGHT_BLUE_CONCRETE.defaultBlockState()
+        );
+
+        level.setBlockAndUpdate(
+            new BlockPos(-3, 0, -5),
+            Blocks.ORANGE_CONCRETE.defaultBlockState()
+        );
+
+        level.setBlockAndUpdate(
+            new BlockPos(-1, 0, -5),
+            Blocks.GRAY_CONCRETE.defaultBlockState()
+        );
+
+        level.setBlockAndUpdate(
+            new BlockPos(1, 0, -5),
+            Blocks.LIME_CONCRETE.defaultBlockState()
+        );
+
+        level.setBlockAndUpdate(
+            new BlockPos(3, 0, -5),
+            Blocks.PURPLE_CONCRETE.defaultBlockState()
+        );
+
+        level.setBlockAndUpdate(
+            new BlockPos(5, 0, -5),
+            Blocks.PINK_CONCRETE.defaultBlockState()
+        );
+
+        //avatar
+        placeAvatar(level);
+    }
+
+    public static void placeAvatar(ServerLevel level) {
+        var search = new AABB(-8, 0, -8, 8, 7, 8);
+        var stands = level.getEntitiesOfClass(ArmorStand.class, search);
+
+        for (var stand : stands) {
+            if (stand.getTags().contains(AVATAR_TAG)) {
+                return;
+            }
+        }
+
+        var avatar = new ArmorStand(level, 0.5, 1.0, 3.5);
+        avatar.setNoGravity(true);
+        avatar.setInvulnerable(true);
+        avatar.setCustomName(Component.translatable("npc.ascendant.avatar"));
+        avatar.setCustomNameVisible(true);
+        avatar.addTag(AVATAR_TAG);
+
+        level.addFreshEntity(avatar);
+    }
+
+    public static void sendToWaiting(ServerPlayer player) {
+        var server = player.getServer();
+        if (server == null) {
+            return;
+        }
+
+        var level = server.getLevel(TutorialSystem.WAITING);
+        if (level == null) {
+            return;
+        }
+
+        TutorialSystem.placeWaitingRoom(level);
+        player.teleportTo(level, 0.5, 1.0, 0.5, 0.0f, 0.0f);
+    }
+
+    public static void sendToTutorial(ServerPlayer player) {
+        var server = player.getServer();
+        if (server == null) {
+            return;
+        }
+
+        var level = server.getLevel(TutorialSystem.TUTORIAL);
+        if (level == null) {
+            return;
+        }
+
+        player.teleportTo(level, 0.5, 1.0, 0.5, 0.0f, 0.0f);
+    }
+
+    public static PlayerClass classFromPad(BlockState state) {
+        if (state.is(Blocks.LIGHT_BLUE_CONCRETE)) {
+            return PlayerClass.LIGHT_WARRIOR;
+        }
+        if (state.is(Blocks.ORANGE_CONCRETE)) {
+            return PlayerClass.MEDIUM_WARRIOR;
+        }
+        if (state.is(Blocks.GRAY_CONCRETE)) {
+            return PlayerClass.HEAVY_WARRIOR;
+        }
+        if (state.is(Blocks.LIME_CONCRETE)) {
+            return PlayerClass.ARCHER;
+        }
+        if (state.is(Blocks.PURPLE_CONCRETE)) {
+            return PlayerClass.CASTER;
+        }
+        if (state.is(Blocks.PINK_CONCRETE)) {
+            return PlayerClass.HEALER;
+        }
+
+        return null;
+    }
+
+    public static void onPlayerTick(Player player) {
+        if (player.level().isClientSide) {
+            return;
+        }
+        
+        if (!player.level().dimension().equals(WAITING)) {
+            return;
+        }
+
+        if (player.getData(ModAttachments.PLAYER_DATA).getAvatarLine() < 4) {
+            return;
+        }
+
+        var padPos = player.blockPosition().below();
+        var state = player.level().getBlockState(padPos);
+        var playerClass = classFromPad(state);
+
+        if (playerClass != null) {
+            player.displayClientMessage(playerClass.getDisplayName(), true);
+        }
+    }
+
+    public static boolean isAvatar(Entity entity) {
+        return entity.getTags().contains(AVATAR_TAG);
+    }
+
+    public static void talkToAvatar(Player player) {
+        var playerData = player.getData(ModAttachments.PLAYER_DATA);
+        int line = playerData.getAvatarLine();
+        int shown = Math.min(line, 3);
+
+        player.sendSystemMessage(
+            Component.translatable("message.ascendant.avatar.line" + shown)
+        );
+    
+        if (line < 3) {
+            playerData.setAvatarLine(line + 1);
+        }
+        else {
+            playerData.setAvatarLine(4);
+        }
+
+        player.syncData(ModAttachments.PLAYER_DATA);
+    }
+}
