@@ -7,6 +7,7 @@ import com.frostflamestudio.ascendant.registry.ModAttachments;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +16,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Display;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.phys.AABB;
 
@@ -31,6 +34,7 @@ public class TutorialSystem {
     );
 
     private static final String AVATAR_TAG = "ascendant_avatar";
+    private static final String HOLOGRAM_TAG = "ascendant_class_hologram";
 
     public static void placeWaitingRoom(ServerLevel level) {
         for (int x = -8; x <= 8; x++) {
@@ -94,6 +98,7 @@ public class TutorialSystem {
 
         //avatar
         placeAvatar(level);
+        placeHolograms(level);
     }
 
     public static void placeAvatar(ServerLevel level) {
@@ -114,6 +119,53 @@ public class TutorialSystem {
         avatar.addTag(AVATAR_TAG);
 
         level.addFreshEntity(avatar);
+    }
+
+    public static void placeHolograms(ServerLevel level) {
+        var search = new AABB(-8, 0, -8, 8, 7, 8);
+        var holograms = level.getEntitiesOfClass(Display.TextDisplay.class, search);
+    
+        for (var hologram : holograms) {
+            if (hologram.getTags().contains(HOLOGRAM_TAG)) {
+                return;
+            }
+        }
+    
+        placeClassHologram(level, -5, -5, PlayerClass.LIGHT_WARRIOR);
+        placeClassHologram(level, -3, -5, PlayerClass.MEDIUM_WARRIOR);
+        placeClassHologram(level, -1, -5, PlayerClass.HEAVY_WARRIOR);
+        placeClassHologram(level, 1, -5, PlayerClass.ARCHER);
+        placeClassHologram(level, 3, -5, PlayerClass.CASTER);
+        placeClassHologram(level, 5, -5, PlayerClass.HEALER);
+    }
+
+    private static void placeClassHologram(
+        ServerLevel level,
+        int x,
+        int z,
+        PlayerClass playerClass
+    ) {
+        var hologram = EntityType.TEXT_DISPLAY.create(level);
+        if (hologram == null) {
+            return;
+        }
+    
+        hologram.moveTo(x + 0.5, 2.0, z + 0.5, 0.0f, 0.0f);
+        hologram.addTag(HOLOGRAM_TAG);
+    
+        var nbt = new CompoundTag();
+        hologram.saveWithoutId(nbt);
+        nbt.putString(
+            "text",
+            Component.Serializer.toJson(
+                playerClass.getDisplayName(),
+                level.registryAccess()
+            )
+        );
+        nbt.putString("billboard", "center");
+        hologram.load(nbt);
+    
+        level.addFreshEntity(hologram);
     }
 
     public static void sendToWaiting(ServerPlayer player) {
