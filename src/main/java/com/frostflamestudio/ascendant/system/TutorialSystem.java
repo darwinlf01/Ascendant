@@ -3,6 +3,8 @@ package com.frostflamestudio.ascendant.system;
 import com.frostflamestudio.ascendant.AscendantMod;
 import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.registry.ModAttachments;
+import com.frostflamestudio.ascendant.entity.AvatarEntity;
+import com.frostflamestudio.ascendant.registry.ModEntities;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
@@ -103,21 +105,28 @@ public class TutorialSystem {
 
     public static void placeAvatar(ServerLevel level) {
         var search = new AABB(-8, 0, -8, 8, 7, 8);
-        var stands = level.getEntitiesOfClass(ArmorStand.class, search);
 
-        for (var stand : stands) {
+        var avatars = level.getEntitiesOfClass(AvatarEntity.class, search);
+        if (!avatars.isEmpty()) {
+            return;
+        }
+
+        for (var stand : level.getEntitiesOfClass(ArmorStand.class, search)) {
             if (stand.getTags().contains(AVATAR_TAG)) {
-                return;
+                stand.discard();
             }
         }
 
-        var avatar = new ArmorStand(level, 0.5, 1.0, 3.5);
-        avatar.setNoGravity(true);
-        avatar.setInvulnerable(true);
+        var avatar = ModEntities.AVATAR.get().create(level);
+        if (avatar == null) {
+            return;
+        }
+
+        avatar.moveTo(0.5, 1.0, 3.5, 180.0F, 0.0F);
+        avatar.setYBodyRot(180.0F);
+        avatar.setYHeadRot(180.0F);
         avatar.setCustomName(Component.translatable("npc.ascendant.avatar"));
         avatar.setCustomNameVisible(true);
-        avatar.addTag(AVATAR_TAG);
-
         level.addFreshEntity(avatar);
     }
 
@@ -243,7 +252,7 @@ public class TutorialSystem {
     }
 
     public static boolean isAvatar(Entity entity) {
-        return entity.getTags().contains(AVATAR_TAG);
+        return entity instanceof AvatarEntity;
     }
 
     public static void talkToAvatar(Player player) {

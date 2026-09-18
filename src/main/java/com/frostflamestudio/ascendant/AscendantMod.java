@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import com.frostflamestudio.ascendant.registry.ModAttachments;
 import com.frostflamestudio.ascendant.registry.ModBlocks;
 import com.frostflamestudio.ascendant.registry.ModCreativeTabs;
+import com.frostflamestudio.ascendant.registry.ModEntities;
 import com.frostflamestudio.ascendant.registry.ModItems;
 import com.mojang.logging.LogUtils;
 
@@ -39,6 +40,7 @@ public class AscendantMod {
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModAttachments.ATTACHMENTS.register(modEventBus);
+        ModEntities.ENTITY_TYPES.register(modEventBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
