@@ -711,9 +711,19 @@ Poses v1 de armas/arco cerradas.
 
 ---
 
+`avatarLine` ya va en NBT + `STREAM_CODEC` (constructor de 5 args) + `syncData` en `talkToAvatar`. Cliente puede leer el índice.
+
+Login: `NONE` → sala `waiting`; `remindIfUnset` es Guide **o** pads según `avatarLine`. Pads y popup (`ConfirmClassScreen`) exigen `avatarLine >= 4`. Confirmación → `selectIdentity` → kit → `tutorial`.
+
+Guide estatua v1: `isPushable()` false + `doPush` vacío. Skin 64×64 (`avatar.png`). Hologramas de nombre + ítem sobre pads (pads en y=1).
+
+Estilo de tutor (pedido del usuario): tareas con archivo, sitio y pasos; ofrecer varias opciones o dejar que él decida.
+
+---
+
 # Próxima lección
 
-Login: Guide vs clase según `avatarLine`. Pads tras intro. Siguiente: sync de `avatarLine` (`STREAM_CODEC` + `syncData`) para el popup en cliente.
+Pendiente a elegir: `/ascendant tutorial` en `CommandEvents`, suelo seguro JSON, plataforma Java en `tutorial`, u otra cosa.
 
 ---
 

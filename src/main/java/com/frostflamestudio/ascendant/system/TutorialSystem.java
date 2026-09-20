@@ -5,11 +5,15 @@ import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.registry.ModAttachments;
 import com.frostflamestudio.ascendant.entity.AvatarEntity;
 import com.frostflamestudio.ascendant.registry.ModEntities;
+import com.frostflamestudio.ascendant.registry.ModItems;
 
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.FloatTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -37,6 +41,14 @@ public class TutorialSystem {
 
     private static final String AVATAR_TAG = "ascendant_avatar";
     private static final String HOLOGRAM_TAG = "ascendant_class_hologram";
+
+    private static ListTag floatList(float... values) {
+        var list = new ListTag();
+        for (float value : values) {
+            list.add(FloatTag.valueOf(value));
+        }
+        return list;
+    }
 
     public static void placeWaitingRoom(ServerLevel level) {
         for (int x = -8; x <= 8; x++) {
@@ -69,32 +81,32 @@ public class TutorialSystem {
 
         //pads
         level.setBlockAndUpdate(
-            new BlockPos(-5, 0, -5),
+            new BlockPos(-5, 1, -5),
             Blocks.LIGHT_BLUE_CONCRETE.defaultBlockState()
         );
 
         level.setBlockAndUpdate(
-            new BlockPos(-3, 0, -5),
+            new BlockPos(-3, 1, -5),
             Blocks.ORANGE_CONCRETE.defaultBlockState()
         );
 
         level.setBlockAndUpdate(
-            new BlockPos(-1, 0, -5),
+            new BlockPos(-1, 1, -5),
             Blocks.GRAY_CONCRETE.defaultBlockState()
         );
 
         level.setBlockAndUpdate(
-            new BlockPos(1, 0, -5),
+            new BlockPos(1, 1, -5),
             Blocks.LIME_CONCRETE.defaultBlockState()
         );
 
         level.setBlockAndUpdate(
-            new BlockPos(3, 0, -5),
+            new BlockPos(3, 1, -5),
             Blocks.PURPLE_CONCRETE.defaultBlockState()
         );
 
         level.setBlockAndUpdate(
-            new BlockPos(5, 0, -5),
+            new BlockPos(5, 1, -5),
             Blocks.PINK_CONCRETE.defaultBlockState()
         );
 
@@ -136,7 +148,14 @@ public class TutorialSystem {
     
         for (var hologram : holograms) {
             if (hologram.getTags().contains(HOLOGRAM_TAG)) {
-                return;
+                hologram.discard();
+            }
+        }
+
+        var itemHolograms = level.getEntitiesOfClass(Display.ItemDisplay.class, search);
+        for (var hologram : itemHolograms) {
+            if (hologram.getTags().contains(HOLOGRAM_TAG)) {
+                hologram.discard();
             }
         }
     
@@ -146,6 +165,50 @@ public class TutorialSystem {
         placeClassHologram(level, 1, -5, PlayerClass.ARCHER);
         placeClassHologram(level, 3, -5, PlayerClass.CASTER);
         placeClassHologram(level, 5, -5, PlayerClass.HEALER);
+    }
+
+    private static void placeClassItemHologram(
+        ServerLevel level,
+        int x,
+        int z,
+        PlayerClass playerClass
+    ) {
+        ItemStack stack = switch (playerClass) {
+            case LIGHT_WARRIOR -> new ItemStack(ModItems.STEEL_DAGGER.get());
+            case MEDIUM_WARRIOR -> new ItemStack(ModItems.STEEL_LONGSWORD.get());
+            case HEAVY_WARRIOR -> new ItemStack(ModItems.STEEL_ARMING_SWORD.get());
+            case ARCHER -> new ItemStack(ModItems.WOODEN_BOW.get());
+            case CASTER -> new ItemStack(ModItems.WOODEN_STAFF.get());
+            case HEALER -> new ItemStack(ModItems.HOLY_SEAL.get());
+            default -> null;
+        };
+        if (stack == null) {
+            return;
+        }
+    
+        var hologram = EntityType.ITEM_DISPLAY.create(level);
+        if (hologram == null) {
+            return;
+        }
+    
+        hologram.moveTo(x + 0.5, 3.6, z + 0.5, 0.0F, 0.0F);
+        hologram.addTag(HOLOGRAM_TAG);
+    
+        var nbt = new CompoundTag();
+        hologram.saveWithoutId(nbt);
+        nbt.put("item", stack.save(level.registryAccess()));
+        nbt.putString("item_display", "gui");
+        nbt.putString("billboard", "center");
+    
+        var transformation = new CompoundTag();
+        transformation.put("translation", floatList(0.0F, 0.0F, 0.0F));
+        transformation.put("left_rotation", floatList(0.0F, 0.0F, 0.0F, 1.0F));
+        transformation.put("right_rotation", floatList(0.0F, 0.0F, 0.0F, 1.0F));
+        transformation.put("scale", floatList(1.0F, 1.0F, 1.0F));
+        nbt.put("transformation", transformation);
+    
+        hologram.load(nbt);
+        level.addFreshEntity(hologram);
     }
 
     private static void placeClassHologram(
@@ -159,7 +222,7 @@ public class TutorialSystem {
             return;
         }
     
-        hologram.moveTo(x + 0.5, 2.0, z + 0.5, 0.0f, 0.0f);
+        hologram.moveTo(x + 0.5, 3.0, z + 0.5, 0.0F, 0.0F);
         hologram.addTag(HOLOGRAM_TAG);
     
         var nbt = new CompoundTag();
@@ -172,9 +235,19 @@ public class TutorialSystem {
             )
         );
         nbt.putString("billboard", "center");
-        hologram.load(nbt);
+        nbt.putInt("background", 0);
     
+        var transformation = new CompoundTag();
+        transformation.put("translation", floatList(0.0F, 0.0F, 0.0F));
+        transformation.put("left_rotation", floatList(0.0F, 0.0F, 0.0F, 1.0F));
+        transformation.put("right_rotation", floatList(0.0F, 0.0F, 0.0F, 1.0F));
+        transformation.put("scale", floatList(1.0F, 1.0F, 1.0F));
+        nbt.put("transformation", transformation);
+    
+        hologram.load(nbt);
         level.addFreshEntity(hologram);
+    
+        placeClassItemHologram(level, x, z, playerClass);
     }
 
     public static void sendToWaiting(ServerPlayer player) {

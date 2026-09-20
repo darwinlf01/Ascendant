@@ -22,7 +22,7 @@ public class AvatarRenderer extends HumanoidMobRenderer<AvatarEntity, PlayerMode
 
     @Override
     public ResourceLocation getTextureLocation(AvatarEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/player/wide/steve.png");
+        return ResourceLocation.fromNamespaceAndPath(AscendantMod.MODID, "textures/entity/avatar.png");
     }
 
     @SubscribeEvent
