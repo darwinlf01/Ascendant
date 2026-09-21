@@ -14,17 +14,19 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
     private Profession profession = Profession.NONE;
 
     private int avatarLine = 0;
+    private StatData statData;
 
     public PlayerData (){
-        this(new MiningData(), Profession.NONE, Race.NONE, PlayerClass.NONE, 0);
+        this(new MiningData(), Profession.NONE, Race.NONE, PlayerClass.NONE, 0, new StatData());
     }
 
-    public PlayerData (MiningData miningData, Profession profession, Race race, PlayerClass playerClass, int avatarLine) {
+    public PlayerData (MiningData miningData, Profession profession, Race race, PlayerClass playerClass, int avatarLine, StatData statData) {
         this.miningData = miningData;
         this.profession = profession;
         this.race = race;
         this.playerClass = playerClass;
         this.avatarLine = avatarLine;
+        this.statData = statData;
     }
 
     @Override
@@ -35,6 +37,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         tag.putString("player_class", playerClass.name());
         tag.putString("profession", profession.name());
         tag.putInt("avatar_line", avatarLine);
+        tag.put("stats", statData.serializeNBT(provider));
         return tag;
     }
     @Override
@@ -44,6 +47,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         var className = nbt.getString("player_class");
         var professionName = nbt.getString("profession");
         avatarLine = nbt.getInt("avatar_line");
+        statData.deserializeNBT(provider, nbt.getCompound("stats"));
 
         if (raceName.isEmpty()) {
             race = Race.NONE;
@@ -80,8 +84,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
             PlayerData::getPlayerClass,
             ByteBufCodecs.INT,
             PlayerData::getAvatarLine,
+            StatData.STREAM_CODEC,
+            PlayerData::getStatData,
             PlayerData::new
         );
+
+    //stats
+    public StatData getStatData() {
+        return statData;
+    }
 
     //raza
     public Race getRace() {

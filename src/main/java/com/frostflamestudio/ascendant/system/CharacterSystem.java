@@ -4,6 +4,7 @@ import com.frostflamestudio.ascendant.registry.ModAttachments;
 import com.frostflamestudio.ascendant.registry.ModItems;
 import com.frostflamestudio.ascendant.data.Race;
 import com.frostflamestudio.ascendant.data.PlayerClass;
+import com.frostflamestudio.ascendant.data.StatType;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -54,6 +55,27 @@ public class CharacterSystem {
             return true;
         }
         catch (IllegalArgumentException e){
+            player.sendSystemMessage(Component.translatable("message.ascendant.invalid_option"));
+            return false;
+        }
+    }
+
+    public static boolean setStat(Player player, String name, int value) {
+        try {
+            StatType type = StatType.valueOf(name.toUpperCase());
+            var playerData = player.getData(ModAttachments.PLAYER_DATA);
+            playerData.getStatData().set(type, value);
+            player.syncData(ModAttachments.PLAYER_DATA);
+            player.sendSystemMessage(
+                Component.translatable(
+                    "message.ascendant.stat_set",
+                    type.getDisplayName(),
+                    value
+                )
+            );
+
+            return true;
+        } catch (IllegalArgumentException e) {
             player.sendSystemMessage(Component.translatable("message.ascendant.invalid_option"));
             return false;
         }

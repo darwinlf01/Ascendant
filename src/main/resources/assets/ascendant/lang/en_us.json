@@ -62,5 +62,37 @@
   "screen.ascendant.player_class": "Class",
   "screen.ascendant.confirm_class": "Choose %s?",
 
+  "screen.ascendant.menu": "Ascendant",
+  "key.ascendant.menu": "Open Ascendant Menu",
+  "key.categories.ascendant": "Ascendant",
+
+  "screen.ascendant.tab.status": "Status",
+  "screen.ascendant.tab.skills": "Skills",
+  "screen.ascendant.tab.titles": "Titles",
+  "screen.ascendant.tab.blessing": "Blessing",
+  "screen.ascendant.tab.bloodline": "Bloodline",
+  "screen.ascendant.tab.empty": "Nothing here yet.",
+
+  "stat.ascendant.name": "Name",
+  "stat.ascendant.race": "Race",
+  "stat.ascendant.player_class": "Class",
+  "stat.ascendant.profession": "Profession",
+  "stat.ascendant.health": "Health",
+  "stat.ascendant.mana": "Mana",
+  "stat.ascendant.stamina": "Stamina",
+  "stat.ascendant.strength": "Strength",
+  "stat.ascendant.agility": "Agility",
+  "stat.ascendant.endurance": "Endurance",
+  "stat.ascendant.vitality": "Vitality",
+  "stat.ascendant.toughness": "Toughness",
+  "stat.ascendant.wisdom": "Wisdom",
+  "stat.ascendant.intelligence": "Intelligence",
+  "stat.ascendant.perception": "Perception",
+  "stat.ascendant.willpower": "Willpower",
+  "stat.ascendant.free_points": "Free points",
+  "stat.ascendant.health_value": "%s / %s",
+  "message.ascendant.stat.strength": "Strength: %s",
+  "message.ascendant.stat_set": "%s: %s",
+
   "npc.ascendant.avatar": "Guide"
 }

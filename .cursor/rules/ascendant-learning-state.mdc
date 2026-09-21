@@ -717,13 +717,49 @@ Login: `NONE` → sala `waiting`; `remindIfUnset` es Guide **o** pads según `av
 
 Guide estatua v1: `isPushable()` false + `doPush` vacío. Skin 64×64 (`avatar.png`). Hologramas de nombre + ítem sobre pads (pads en y=1).
 
-Estilo de tutor (pedido del usuario): tareas con archivo, sitio y pasos; ofrecer varias opciones o dejar que él decida.
+Estilo de tutor: lang en JSON listo para pegar. Tareas Java siguen desglosadas.
+
+---
+
+Menú cáscara: `AscendantMenuScreen` + tecla K (`MenuClientEvents`, `consumeClick`) + lang `screen.ascendant.menu` / `key.ascendant.menu` / `key.categories.ascendant`.
+
+---
+
+Navegación del menú: `MenuSection` + 5 botones, K abre/cierra, Status por defecto. Bloque `STATUS` en `render` aún vacío.
+
+---
+
+Hoja Status en el menú: name/race/class/profession/HP reales; mana, stamina, 9 stats y free points como `—`. Navegación y tecla K ya cerradas.
+
+---
+
+`StatData` cerrado.
+
+---
+
+`StatData` dentro de `PlayerData`: campo, NBT `"stats"`, 6ª pieza del `composite`, `getStatData()`. Menú aún pinta `—`.
+
+---
+
+Status lee `getStatData()` y pinta ints (0). Mana/stamina siguen `—`.
+
+---
+
+`/ascendant strength` + `setStrength` + `syncData`. Circuito Strength cerrado. Aún un comando por stat.
+
+---
+
+`/ascendant stat <name> <value>` + `StatType` + `StatData.set`. Un comando para las 10. Menú Status aún pinta 10 `drawLabeled` a mano.
+
+---
+
+Status columna derecha: `for (StatType)` + `get`/`getDisplayName`. Hueco antes de `FREE_POINTS`. Circuito stats v1 (dato + comando + menú DRY) cerrado.
 
 ---
 
 # Próxima lección
 
-Pendiente a elegir: `/ascendant tutorial` en `CommandEvents`, suelo seguro JSON, plataforma Java en `tutorial`, u otra cosa.
+A elegir: Skills (subapartados raza/clase/profesión); mana/stamina; `/ascendant tutorial`; u otra cosa.
 
 ---
 

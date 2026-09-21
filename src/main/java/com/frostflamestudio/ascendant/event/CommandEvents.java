@@ -3,9 +3,11 @@ package com.frostflamestudio.ascendant.event;
 import com.frostflamestudio.ascendant.AscendantMod;
 import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.data.Race;
+import com.frostflamestudio.ascendant.data.StatType;
 import com.frostflamestudio.ascendant.system.CharacterSystem;
 import com.frostflamestudio.ascendant.system.MiningSystem;
 import com.frostflamestudio.ascendant.system.TutorialSystem;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -80,6 +82,24 @@ public class CommandEvents {
                             TutorialSystem.sendToWaiting(player);
                             return 1;
                         }))
+                )
+                .then(
+                    Commands.literal("stat")
+                        .requires(source -> source.hasPermission(2))
+                        .then(
+                            Commands.argument("name", StringArgumentType.word())
+                                .suggests((ctx, builder) -> {
+                                    addEnumSuggestions(builder, StatType.values());
+                                    return builder.buildFuture();
+                                })
+                                .then(
+                                    Commands.argument("value", IntegerArgumentType.integer())
+                                    .executes(ctx -> forPlayer(ctx, player ->
+                                        CharacterSystem.setStat(player, StringArgumentType.getString(ctx, "name"),
+                                        IntegerArgumentType.getInteger(ctx, "value")) ? 1 : 0
+                                    ))
+                                )
+                        )
                 )
         );
     }
