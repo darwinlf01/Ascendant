@@ -120,7 +120,7 @@ public class AscendantMenuScreen extends Screen {
                 Component.translatable("stat.ascendant.mana"),
                 Component.translatable(
                     "stat.ascendant.health_value",
-                    stats.getMaxMana(),
+                    stats.getMana(),
                     stats.getMaxMana()
                 )
             );

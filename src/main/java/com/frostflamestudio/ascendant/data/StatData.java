@@ -21,9 +21,10 @@ public class StatData implements INBTSerializable<CompoundTag> {
     private int freePoints = 0;
 
     private int stamina = 0;
+    private int mana = 0;
 
     public StatData() {
-        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     public StatData(
@@ -37,7 +38,8 @@ public class StatData implements INBTSerializable<CompoundTag> {
         int perception,
         int willpower,
         int freePoints,
-        int stamina
+        int stamina,
+        int mana
     ) {
         this.strength = strength;
         this.agility = agility;
@@ -50,6 +52,7 @@ public class StatData implements INBTSerializable<CompoundTag> {
         this.willpower = willpower;
         this.freePoints = freePoints;
         this.stamina = stamina;
+        this.mana = mana;
     }
 
     @Override
@@ -66,6 +69,7 @@ public class StatData implements INBTSerializable<CompoundTag> {
         tag.putInt("willpower", willpower);
         tag.putInt("free_points", freePoints);
         tag.putInt("stamina", stamina);
+        tag.putInt("mana", mana);
         return tag;
     }
 
@@ -87,6 +91,12 @@ public class StatData implements INBTSerializable<CompoundTag> {
         } else {
             stamina = getMaxStamina();
         }
+
+        if (nbt.contains("mana")) {
+            mana = nbt.getInt("mana");
+        } else {
+            mana = getMaxMana();
+        }
     }
 
     public static final StreamCodec<ByteBuf, StatData> STREAM_CODEC = StreamCodec.of(
@@ -102,8 +112,10 @@ public class StatData implements INBTSerializable<CompoundTag> {
             buf.writeInt(data.getWillpower());
             buf.writeInt(data.getFreePoints());
             buf.writeInt(data.getStamina());
+            buf.writeInt(data.getMana());
         },
         buf -> new StatData(
+            buf.readInt(),
             buf.readInt(),
             buf.readInt(),
             buf.readInt(),
@@ -170,6 +182,14 @@ public class StatData implements INBTSerializable<CompoundTag> {
         this.stamina = Math.max(0, Math.min(stamina, getMaxStamina()));
     }
 
+    public int getMana() {
+        return mana;
+    }
+    
+    public void setMana(int mana) {
+        this.mana = Math.max(0, Math.min(mana, getMaxMana()));
+    }
+
     public void set(StatType type, int value) { 
         switch(type) {
             case STRENGTH -> strength = value;
@@ -224,6 +244,7 @@ public class StatData implements INBTSerializable<CompoundTag> {
         }
 
         setStamina(getMaxStamina());
+        setMana(getMaxMana());
     }
 
     public int getMaxStamina() {

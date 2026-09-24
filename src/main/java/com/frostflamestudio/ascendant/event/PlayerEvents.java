@@ -3,6 +3,7 @@ package com.frostflamestudio.ascendant.event;
 import com.frostflamestudio.ascendant.AscendantMod;
 import com.frostflamestudio.ascendant.registry.ModAttachments;
 import com.frostflamestudio.ascendant.system.CharacterSystem;
+import com.frostflamestudio.ascendant.system.PlayerNeedsSystem;
 import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.system.TutorialSystem;
 import com.frostflamestudio.ascendant.system.StatSystem;
@@ -62,6 +63,7 @@ public class PlayerEvents {
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         TutorialSystem.onPlayerTick(event.getEntity());
         StatSystem.tickStamina(event.getEntity());
+        PlayerNeedsSystem.tickFood(event.getEntity());
     }
 
     @SubscribeEvent

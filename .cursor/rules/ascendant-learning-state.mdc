@@ -805,9 +805,37 @@ Sprint: `tickStamina` −1 / 40 ticks; a 0 corta sprint. Regen: +1 / 60 ticks si
 
 ---
 
+Mana actual en `StatData`: campo, NBT `"mana"`, 12.º int del codec, `getMana`/`setMana` (clamp), baseline llena al tope. Sin gasto.
+
+---
+
+Menú Status: mana `getMana()` / `getMaxMana()`. Circuito mana dato+menú cerrado (gasto espera a skills).
+
+---
+
+Visión HUD Ascendant (en curso): quitar IdentityHud/PlayerHud; ocultar vida/comida/XP vanilla (dejar hotbar); barra de 5 skills activas; comida no necesaria (solo buffs). Recursos Ascendant (HP/MP/stamina) en HUD propio más adelante.
+
+---
+
+`HudClientEvents`: cancela `PLAYER_HEALTH`, `FOOD_LEVEL`, `EXPERIENCE_BAR`, `EXPERIENCE_LEVEL` en `RenderGuiLayerEvent.Pre`. Hotbar intacto.
+
+---
+
+`IdentityHud` y `PlayerHud` eliminados. Identidad/minería viven en el menú K.
+
+---
+
+`PlayerNeedsSystem.tickFood`: food 20, saturation 0, exhaustion 0. Comida no necesaria para vivir.
+
+---
+
+`SkillBarHud`: 5 placeholders encima del hotbar (`registerAbove(HOTBAR)`). `y = guiHeight - 48`. Sin skills reales todavía.
+
+---
+
 # Próxima lección
 
-Hito: commit + push del circuito stats/stamina. Luego: mana actual (espejo del dato) o gastar free points en el menú.
+Push del rework HUD si quieres. Luego: barras Ascendant HP/mana/stamina, o skills reales más adelante.
 
 ---
 
