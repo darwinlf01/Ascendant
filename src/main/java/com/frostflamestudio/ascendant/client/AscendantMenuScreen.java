@@ -118,14 +118,22 @@ public class AscendantMenuScreen extends Screen {
             this.drawLabeled(
                 guiGraphics, leftX, y,
                 Component.translatable("stat.ascendant.mana"),
-                Component.literal("—")
+                Component.translatable(
+                    "stat.ascendant.health_value",
+                    stats.getMaxMana(),
+                    stats.getMaxMana()
+                )
             );
             y += line;
 
             this.drawLabeled(
                 guiGraphics, leftX, y,
                 Component.translatable("stat.ascendant.stamina"),
-                Component.literal("—")
+                Component.translatable(
+                    "stat.ascendant.health_value",
+                    stats.getStamina(),
+                    stats.getMaxStamina()
+                )
             );
 
             int statY = 80;

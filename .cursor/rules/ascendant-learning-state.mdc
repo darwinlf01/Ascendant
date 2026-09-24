@@ -757,9 +757,57 @@ Status columna derecha: `for (StatType)` + `get`/`getDisplayName`. Hueco antes d
 
 ---
 
+Baseline humano: `HUMAN_BASE` 5, `needsHumanBaseline` / `applyHumanBaseline` en login. Free points 0. HP/MP/stamina aún vanilla.
+
+---
+
+HP = Vitality (`StatSystem.applyVitalityHealth`, modificador transiente). Login + `setStat`. Al morir se pierde.
+
+---
+
+HP al respawn: `PlayerRespawnEvent` → `applyVitalityHealth`. Stamina/mana del menú siguen en `—`.
+
+---
+
+Stamina v1: `getMaxStamina()` = Endurance, menú `max/max`. Mana sigue en `—`.
+
+---
+
+Mana v1: `getMaxMana()` = Wisdom. Status ya no tiene `—` en HP/MP/stamina. HP = Vitality (corazones). Stamina/mana aún no se gastan.
+
+---
+
+Agility → `MOVEMENT_SPEED` (`ADD_MULTIPLIED_BASE`, 5 = vanilla). Login, respawn, `setStat`.
+
+---
+
+Strength → `ATTACK_DAMAGE` (`ADD_MULTIPLIED_BASE`, 5 = puño vanilla). Login, respawn, `setStat`.
+
+---
+
+Toughness → `LivingIncomingDamageEvent` + `setAmount`. 5 = vanilla. `/kill` y vacío no se reducen (`BYPASSES_INVULNERABILITY`). No es `ARMOR_TOUGHNESS`. `PlayerEvents.onIncomingDamage` → `StatSystem.applyToughnessReduction`.
+
+---
+
+Willpower, Perception e Intelligence: sin efecto de mundo hasta skills. No mapearlos a knockback/suerte/alcance.
+
+---
+
+Stamina actual en `StatData`: campo, NBT `"stamina"`, 11.º int del codec, `getStamina`/`setStamina` (clamp), `applyHumanBaseline` llena al tope.
+
+---
+
+Menú Status: stamina `getStamina()` / `getMaxStamina()`.
+
+---
+
+Sprint: `tickStamina` −1 / 40 ticks; a 0 corta sprint. Regen: +1 / 60 ticks si no sprinta. Creativo/espectador no tocan el pool. Circuito stamina v1 cerrado.
+
+---
+
 # Próxima lección
 
-A elegir: Skills (subapartados raza/clase/profesión); mana/stamina; `/ascendant tutorial`; u otra cosa.
+Hito: commit + push del circuito stats/stamina. Luego: mana actual (espejo del dato) o gastar free points en el menú.
 
 ---
 

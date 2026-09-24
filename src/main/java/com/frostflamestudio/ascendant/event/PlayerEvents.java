@@ -5,6 +5,7 @@ import com.frostflamestudio.ascendant.registry.ModAttachments;
 import com.frostflamestudio.ascendant.system.CharacterSystem;
 import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.system.TutorialSystem;
+import com.frostflamestudio.ascendant.system.StatSystem;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -15,6 +16,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 @EventBusSubscriber(modid = AscendantMod.MODID)
 public class PlayerEvents {
@@ -30,6 +32,9 @@ public class PlayerEvents {
         AscendantMod.LOGGER.info("Player logged in: {}", player.getName().getString());
 
         CharacterSystem.applyDefaultRace(player);
+        StatSystem.applyVitalityHealth(player);
+        StatSystem.applyAgilitySpeed(player);
+        StatSystem.applyStrengthDamage(player);
 
         if (player instanceof ServerPlayer serverPlayer) {
             var playerData = player.getData(ModAttachments.PLAYER_DATA);
@@ -42,8 +47,21 @@ public class PlayerEvents {
     }
 
     @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        var player = event.getEntity();
+        if (player.level().isClientSide) {
+            return;
+        }
+
+        StatSystem.applyVitalityHealth(player);
+        StatSystem.applyAgilitySpeed(player);
+        StatSystem.applyStrengthDamage(player);
+    }
+
+    @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         TutorialSystem.onPlayerTick(event.getEntity());
+        StatSystem.tickStamina(event.getEntity());
     }
 
     @SubscribeEvent
@@ -62,5 +80,10 @@ public class PlayerEvents {
         if (!event.getEntity().level().isClientSide) {
             TutorialSystem.talkToAvatar(event.getEntity());
         }
+    }
+
+    @SubscribeEvent
+    public static void onIncomingDamage(LivingIncomingDamageEvent event) {
+        StatSystem.applyToughnessReduction(event);
     }
 }

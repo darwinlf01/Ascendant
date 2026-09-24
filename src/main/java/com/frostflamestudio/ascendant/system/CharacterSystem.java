@@ -66,6 +66,9 @@ public class CharacterSystem {
             var playerData = player.getData(ModAttachments.PLAYER_DATA);
             playerData.getStatData().set(type, value);
             player.syncData(ModAttachments.PLAYER_DATA);
+            StatSystem.applyVitalityHealth(player);
+            StatSystem.applyAgilitySpeed(player);
+            StatSystem.applyStrengthDamage(player);
             player.sendSystemMessage(
                 Component.translatable(
                     "message.ascendant.stat_set",
@@ -96,9 +99,19 @@ public class CharacterSystem {
 
     public static void applyDefaultRace(Player player) {
         var playerData = player.getData(ModAttachments.PLAYER_DATA);
+        boolean changed = false;
 
         if (playerData.getRace() == Race.NONE) {
             playerData.setRace(Race.HUMAN);
+            changed = true;
+        }
+
+        if (playerData.getRace() == Race.HUMAN && playerData.getStatData().needsHumanBaseline()) {
+            playerData.getStatData().applyHumanBaseline();
+            changed = true;
+        }
+
+        if (changed) {
             player.syncData(ModAttachments.PLAYER_DATA);
         }
     }

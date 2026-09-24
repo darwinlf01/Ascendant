@@ -7,6 +7,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public class StatData implements INBTSerializable<CompoundTag> {
+    public static final int HUMAN_BASE = 5;
+
     private int strength = 0;
     private int agility = 0;
     private int endurance = 0;
@@ -18,8 +20,10 @@ public class StatData implements INBTSerializable<CompoundTag> {
     private int willpower = 0;
     private int freePoints = 0;
 
+    private int stamina = 0;
+
     public StatData() {
-        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        this(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     public StatData(
@@ -32,7 +36,8 @@ public class StatData implements INBTSerializable<CompoundTag> {
         int intelligence,
         int perception,
         int willpower,
-        int freePoints
+        int freePoints,
+        int stamina
     ) {
         this.strength = strength;
         this.agility = agility;
@@ -44,6 +49,7 @@ public class StatData implements INBTSerializable<CompoundTag> {
         this.perception = perception;
         this.willpower = willpower;
         this.freePoints = freePoints;
+        this.stamina = stamina;
     }
 
     @Override
@@ -59,6 +65,7 @@ public class StatData implements INBTSerializable<CompoundTag> {
         tag.putInt("perception", perception);
         tag.putInt("willpower", willpower);
         tag.putInt("free_points", freePoints);
+        tag.putInt("stamina", stamina);
         return tag;
     }
 
@@ -74,6 +81,12 @@ public class StatData implements INBTSerializable<CompoundTag> {
         perception = nbt.getInt("perception");
         willpower = nbt.getInt("willpower");
         freePoints = nbt.getInt("free_points");
+
+        if (nbt.contains("stamina")) {
+            stamina = nbt.getInt("stamina");
+        } else {
+            stamina = getMaxStamina();
+        }
     }
 
     public static final StreamCodec<ByteBuf, StatData> STREAM_CODEC = StreamCodec.of(
@@ -88,8 +101,10 @@ public class StatData implements INBTSerializable<CompoundTag> {
             buf.writeInt(data.getPerception());
             buf.writeInt(data.getWillpower());
             buf.writeInt(data.getFreePoints());
+            buf.writeInt(data.getStamina());
         },
         buf -> new StatData(
+            buf.readInt(),
             buf.readInt(),
             buf.readInt(),
             buf.readInt(),
@@ -147,6 +162,14 @@ public class StatData implements INBTSerializable<CompoundTag> {
         return freePoints;
     }
 
+    public int getStamina() {
+        return stamina;
+    }
+    
+    public void setStamina(int stamina) {
+        this.stamina = Math.max(0, Math.min(stamina, getMaxStamina()));
+    }
+
     public void set(StatType type, int value) { 
         switch(type) {
             case STRENGTH -> strength = value;
@@ -175,5 +198,39 @@ public class StatData implements INBTSerializable<CompoundTag> {
             case WILLPOWER -> willpower;
             case FREE_POINTS -> freePoints;
         };
+    }
+
+    public boolean needsHumanBaseline() {
+        for (var type: StatType.values()) {
+            if (type == StatType.FREE_POINTS) {
+                continue;
+            }
+
+            if (get(type) != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void applyHumanBaseline() {
+        for (var type: StatType.values()) {
+            if (type == StatType.FREE_POINTS) {
+                continue;
+            }
+
+            set(type, HUMAN_BASE);
+        }
+
+        setStamina(getMaxStamina());
+    }
+
+    public int getMaxStamina() {
+        return Math.max(1, endurance);
+    }
+
+    public int getMaxMana() {
+        return Math.max(1, wisdom);
     }
 }
