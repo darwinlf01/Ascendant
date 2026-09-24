@@ -44,7 +44,8 @@
   "message.ascendant.talk_to_guide": "Talk to the Guide.",
 
   "race.ascendant.none": "None",
-  "race.ascendant.human": "Human",
+  "race.ascendant.human": "Human (G)",
+  "race.ascendant.human.description": "The lowest level of humans in the system. This type is found only in newly initiated worlds. The human race is known as one of the most balanced and numerous amongst the myriad races of the multiverse, being able to walk many different roads on their path to power. Stat bonuses per level: +1 to all stats. +1 Free Point.",
 
   "player_class.ascendant.none": "None",
   "player_class.ascendant.light_warrior": "Warrior (Light)",
@@ -53,6 +54,13 @@
   "player_class.ascendant.archer": "Archer",
   "player_class.ascendant.caster": "Caster",
   "player_class.ascendant.healer": "Healer",
+
+  "player_class.ascendant.light_warrior.description": "Basic starting class. A light-class warrior focused on quick attacks, evasion, and finesse. While faster than both the medium and heavy variants, it comes with a decrease in attack power and survivability. Mainly uses weapons such as rapiers, daggers, small hatchets, and throwing weapons. Stat bonuses per level: +2 Agi, +1 End, +1 Str, +1 Vit, +1 Free Point.",
+  "player_class.ascendant.medium_warrior.description": "Basic starting class. A medium-class warrior, focused on a balanced approach to combat, finding a compromise between speed and power. While faster than the heavy variant, it is slower than the light-class warriors. While survivability and power are higher than the light-class variant, it is lower than the heavy-class warriors. Able to use a vast array of weapons of both the heavy and light variants. Stat bonuses per level: +1 Agi, +1 End, +1 Vit, +1 Str, +1 Tough, +1 Free Point.",
+  "player_class.ascendant.heavy_warrior.description": "Basic starting class. A heavy-class warrior, focused on power and survivability while sacrificing speed and variance. The heavy warrior is slower, with a less varied approach than both the light and medium class, but in turn, gains great power and survivability. Mainly uses a combo of one-handed weapons and a shield or a two-handed weapon. Generally lacking solid ranged options. Stat bonuses per level: +2 Str, +1 Tough, +1 Vit, +1 End, +1 Free Point.",
+  "player_class.ascendant.archer.description": "Basic starting class. A class focused on ranged combat, mainly using bow and arrow, coupled with light options for melee such as shortswords and daggers. The class is fast and flexible, focusing on Agility over Strength. Stat bonuses per level: +2 Per, +1 Agi, +1 End, +1 Str, +1 Free Point.",
+  "player_class.ascendant.caster.description": "Basic starting class. The caster is focused on magical combat, favoring wisdom and knowledge over brawn and speed. The basic class is non-attuned, meaning not yet specialized in any element or type of magic, thus limited in power but wide in scope. Casters wield powerful destructive abilities, though often lack in defensive options. The class mainly uses catalysts such as staves, idols, relics, or wands in order to amplify the power of magic. Stat bonuses per level: +2 Int, +1 Wis, +1 Will, +1 Per, +1 Free Point.",
+  "player_class.ascendant.healer.description": "Basic starting class. The healer can mend injuries, remove afflictions, and amplify the power of themselves and/or their comrades. The basic class is non-attuned, meaning not yet specialized in any deific powers or types of magic, thus limited in power but wide in scope. The class is weak in solo combat, lacking offensive options, but powerful when surrounded by allies. Stat bonuses per level: +2 Will, +2 Wis, +1 Int, +1 Free Point.",
 
   "profession.ascendant.none": "None",
   "profession.ascendant.mining": "Miner",
@@ -91,6 +99,8 @@
   "stat.ascendant.willpower": "Willpower",
   "stat.ascendant.free_points": "Free points",
   "stat.ascendant.health_value": "%s / %s",
+  "stat.ascendant.named_level": "[%s - lvl %s]",
+  "stat.ascendant.na": "N/A",
   "message.ascendant.stat.strength": "Strength: %s",
   "message.ascendant.stat_set": "%s: %s",
 

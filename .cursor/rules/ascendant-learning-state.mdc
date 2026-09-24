@@ -833,9 +833,33 @@ Visión HUD Ascendant (en curso): quitar IdentityHud/PlayerHud; ocultar vida/com
 
 ---
 
+Menú Status: raza `[Human (G) - lvl 0]` (`stat.ascendant.race_value`); `drawLabeled` con `font.width(label)+8`; `rightX = width/2+50`.
+
+---
+
+Clase/profesión en Status: `NONE` → `stat.ascendant.na` ("N/A"); si no, `getDisplayName()`.
+
+---
+
+Clase/profesión: `NONE` → N/A; si no, `stat.ascendant.named_level`. Minería usa `getMiningLevel()`.
+
+---
+
+Inspección Race por clic: `AscendantMenuScreen.inspectingRace` + hitbox; lore `race.ascendant.human.description`; panel + Done. Solo `HUMAN`.
+
+---
+
+Inspección Class por clic: `inspectingClass` + `classLineY`. Lore `player_class.ascendant.<id>.description` según `name().toLowerCase()`. `NONE` no abre. Las 6 descripciones en lang.
+
+---
+
+Sala waiting: `ConfirmClassScreen` pinta el mismo lore bajo `Choose %s?`. Yes/No al fondo.
+
+---
+
 # Próxima lección
 
-Push del rework HUD si quieres. Luego: barras Ascendant HP/mana/stamina, o skills reales más adelante.
+Inspección de profesión cuando haya lore, o commit del menú + popup.
 
 ---
 
