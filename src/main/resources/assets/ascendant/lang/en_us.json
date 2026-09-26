@@ -62,6 +62,20 @@
   "player_class.ascendant.caster.description": "Basic starting class. The caster is focused on magical combat, favoring wisdom and knowledge over brawn and speed. The basic class is non-attuned, meaning not yet specialized in any element or type of magic, thus limited in power but wide in scope. Casters wield powerful destructive abilities, though often lack in defensive options. The class mainly uses catalysts such as staves, idols, relics, or wands in order to amplify the power of magic. Stat bonuses per level: +2 Int, +1 Wis, +1 Will, +1 Per, +1 Free Point.",
   "player_class.ascendant.healer.description": "Basic starting class. The healer can mend injuries, remove afflictions, and amplify the power of themselves and/or their comrades. The basic class is non-attuned, meaning not yet specialized in any deific powers or types of magic, thus limited in power but wide in scope. The class is weak in solo combat, lacking offensive options, but powerful when surrounded by allies. Stat bonuses per level: +2 Will, +2 Wis, +1 Int, +1 Free Point.",
 
+  "skill.ascendant.entry": "[%s (%s)] — %s",
+
+  "skill.ascendant.basic_archery": "Basic Archery",
+  "skill.ascendant.basic_archery.description": "An Archer's best friend is the bow in his hand, and the arrow in his foe's heart. Unlocks basic proficiency with bows, crossbows, and adds a minuscule bonus to the effect of Agility and Strength when using a ranged weapon.",
+  "skill.ascendant.basic_one_handed": "Basic One-Handed Weapon",
+  "skill.ascendant.basic_one_handed.description": "The Archer may not be a master in the arts of close combat but is far from helpless. Unlocks basic proficiency with most one-handed weapons and adds a minuscule bonus to the effect of Agility and Strength when using a fitting melee weapon.",
+  "skill.ascendant.archers_eye": "Archer's Eye",
+  "skill.ascendant.archers_eye.description": "The eyes of the Archer are trained to track down and spot the weakness of their foes. Allows the Archer to more easily spot prey. Passively gives a minor increase to the effect of Perception on visual organs.",
+  "skill.ascendant.archers_eye.bar": "Eye",
+  "skill.ascendant.grade.inferior": "Inferior",
+  "skill.ascendant.grade.common": "Common",
+  "skill.ascendant.kind.passive": "Passive",
+  "skill.ascendant.kind.active": "Active",
+
   "profession.ascendant.none": "None",
   "profession.ascendant.mining": "Miner",
 

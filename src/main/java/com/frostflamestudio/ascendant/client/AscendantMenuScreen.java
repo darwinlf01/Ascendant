@@ -5,7 +5,10 @@ import com.frostflamestudio.ascendant.data.StatType;
 import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.data.Profession;
 import com.frostflamestudio.ascendant.data.Race;
+import com.frostflamestudio.ascendant.data.Skill;
+import com.frostflamestudio.ascendant.network.AssignSkillSlotPayload;
 
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -21,6 +24,7 @@ public class AscendantMenuScreen extends Screen {
     private int raceLineY = -1;
     private boolean inspectingClass;
     private int classLineY = -1;
+    private Skill inspectingSkill;
     private int statusLeftX;
     private int statusRightX;
 
@@ -30,16 +34,41 @@ public class AscendantMenuScreen extends Screen {
 
     @Override
     protected void init() {
-        if (this.inspectingRace || this.inspectingClass) {
+        if (this.inspectingRace || this.inspectingClass || this.inspectingSkill != null) {
             this.addRenderableWidget(
                 Button.builder(Component.translatable("gui.done"), button -> {
                     this.inspectingRace = false;
                     this.inspectingClass = false;
+                    this.inspectingSkill = null;
                     this.rebuildWidgets();
                 })
                     .bounds(this.width / 2 - 75, this.height - 28, 150, 20)
                     .build()
             );
+
+            if (this.inspectingSkill != null
+                && this.inspectingSkill.getKind() == Skill.Kind.ACTIVE) {
+                int slotWidth = 24;
+                int slotGap = 4;
+                int slotCount = 5;
+                int rowWidth = slotCount * slotWidth + (slotCount - 1) * slotGap;
+                int startX = this.width / 2 - rowWidth / 2;
+            
+                for (int i = 0; i < slotCount; i++) {
+                    int slot = i;
+                    int x = startX + i * (slotWidth + slotGap);
+                    this.addRenderableWidget(
+                        Button.builder(Component.literal(String.valueOf(slot + 1)), button -> {
+                            PacketDistributor.sendToServer(
+                                new AssignSkillSlotPayload(this.inspectingSkill, slot)
+                            );
+                        })
+                            .bounds(x, this.height - 52, slotWidth, 20)
+                            .build()
+                    );
+                }
+            }
+
             return;
         }
 
@@ -76,6 +105,11 @@ public class AscendantMenuScreen extends Screen {
         }
         if (this.inspectingClass) {
             this.renderClassInspect(guiGraphics);
+            return;
+        }
+
+        if (this.inspectingSkill != null) {
+            this.renderSkillInspect(guiGraphics);
             return;
         }
 
@@ -206,6 +240,46 @@ public class AscendantMenuScreen extends Screen {
                 );
                 statY += LINE_HEIGHT;
             }
+        } else if (this.section == MenuSection.SKILLS) {
+            this.raceLineY = -1;
+            this.classLineY = -1;
+        
+            var player = Minecraft.getInstance().player;
+            if (player == null) {
+                return;
+            }
+            var playerClass = player.getData(ModAttachments.PLAYER_DATA).getPlayerClass();
+        
+            int y = 80;
+            boolean any = false;
+            for (var skill : Skill.values()) {
+                if (skill.getPlayerClass() != playerClass) {
+                    continue;
+                }
+                any = true;
+                guiGraphics.drawString(
+                    this.font,
+                    Component.translatable(
+                        "skill.ascendant.entry",
+                        skill.getDisplayName(),
+                        skill.getGradeName(),
+                        skill.getKindName()
+                    ),
+                    this.width / 2 - 160,
+                    y,
+                    0xFFFFFF
+                );
+                y += LINE_HEIGHT;
+            }
+            if (!any) {
+                guiGraphics.drawCenteredString(
+                    this.font,
+                    Component.translatable("screen.ascendant.tab.empty"),
+                    this.width / 2,
+                    80,
+                    0xAAAAAA
+                );
+            }
         } else {
             this.raceLineY = -1;
             this.classLineY = -1;
@@ -284,6 +358,42 @@ public class AscendantMenuScreen extends Screen {
         }
     }
 
+    private void renderSkillInspect(GuiGraphics guiGraphics) {
+        var player = Minecraft.getInstance().player;
+        if (player == null) {
+            return;
+        }
+        var playerClass = player.getData(ModAttachments.PLAYER_DATA).getPlayerClass();
+        if (playerClass == PlayerClass.NONE) {
+            return;
+        }
+
+        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 20, 0xFFFFFF);
+
+        int panelLeft = this.width / 2 - 160;
+        int panelRight = this.width / 2 + 160;
+        int panelTop = 48;
+        int panelBottom = this.height - 52;
+
+        guiGraphics.fill(panelLeft, panelTop, panelRight, panelBottom, 0xC0000000);
+
+        var title = this.inspectingSkill.getDisplayName();
+        guiGraphics.drawCenteredString(this.font, title, this.width / 2, panelTop + 12, 0xFFD080);
+
+        int textLeft = panelLeft + 12;
+        int textWidth = panelRight - panelLeft - 24;
+        int textY = panelTop + 36;
+
+        var lines = this.font.split(
+            this.inspectingSkill.getDescription(),
+            textWidth
+        );
+        for (FormattedCharSequence line : lines) {
+            guiGraphics.drawString(this.font, line, textLeft, textY, 0xFFFFFF);
+            textY += LINE_HEIGHT;
+        }
+    }
+
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (!this.inspectingRace
@@ -318,6 +428,32 @@ public class AscendantMenuScreen extends Screen {
                 this.inspectingClass = true;
                 this.rebuildWidgets();
                 return true;
+            }
+        }
+
+        if (this.inspectingSkill == null
+            && !this.inspectingRace
+            && !this.inspectingClass
+            && this.section == MenuSection.SKILLS
+            && button == 0) {
+            var player = Minecraft.getInstance().player;
+            if (player != null) {
+                var playerClass = player.getData(ModAttachments.PLAYER_DATA).getPlayerClass();
+                int y = 80;
+                int left = this.width / 2 - 160;
+                int right = this.width / 2 + 160;
+                for (var skill : Skill.values()) {
+                    if (skill.getPlayerClass() != playerClass) {
+                        continue;
+                    }
+                    if (mouseX >= left && mouseX < right
+                        && mouseY >= y && mouseY < y + LINE_HEIGHT) {
+                        this.inspectingSkill = skill;
+                        this.rebuildWidgets();
+                        return true;
+                    }
+                    y += LINE_HEIGHT;
+                }
             }
         }
 

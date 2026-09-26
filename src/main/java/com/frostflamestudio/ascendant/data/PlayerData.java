@@ -15,18 +15,20 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
     private int avatarLine = 0;
     private StatData statData;
+    private SkillBarData skillBarData;
 
     public PlayerData (){
-        this(new MiningData(), Profession.NONE, Race.NONE, PlayerClass.NONE, 0, new StatData());
+        this(new MiningData(), Profession.NONE, Race.NONE, PlayerClass.NONE, 0, new StatData(), new SkillBarData());
     }
 
-    public PlayerData (MiningData miningData, Profession profession, Race race, PlayerClass playerClass, int avatarLine, StatData statData) {
+    public PlayerData (MiningData miningData, Profession profession, Race race, PlayerClass playerClass, int avatarLine, StatData statData, SkillBarData skillBarData) {
         this.miningData = miningData;
         this.profession = profession;
         this.race = race;
         this.playerClass = playerClass;
         this.avatarLine = avatarLine;
         this.statData = statData;
+        this.skillBarData = skillBarData;
     }
 
     @Override
@@ -38,6 +40,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         tag.putString("profession", profession.name());
         tag.putInt("avatar_line", avatarLine);
         tag.put("stats", statData.serializeNBT(provider));
+        tag.put("skill_bar", skillBarData.serializeNBT(provider));
         return tag;
     }
     @Override
@@ -48,6 +51,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         var professionName = nbt.getString("profession");
         avatarLine = nbt.getInt("avatar_line");
         statData.deserializeNBT(provider, nbt.getCompound("stats"));
+
+        if (nbt.contains("skill_bar")) {
+            skillBarData.deserializeNBT(provider, nbt.getCompound("skill_bar"));
+        }
 
         if (raceName.isEmpty()) {
             race = Race.NONE;
@@ -72,26 +79,34 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         }
     }
 
-    public static final StreamCodec<ByteBuf, PlayerData> STREAM_CODEC =
-        StreamCodec.composite(
-            MiningData.STREAM_CODEC,
-            PlayerData::getMiningData,
-            Profession.STREAM_CODEC,
-            PlayerData::getProfession,
-            Race.STREAM_CODEC,
-            PlayerData::getRace,
-            PlayerClass.STREAM_CODEC,
-            PlayerData::getPlayerClass,
-            ByteBufCodecs.INT,
-            PlayerData::getAvatarLine,
-            StatData.STREAM_CODEC,
-            PlayerData::getStatData,
-            PlayerData::new
-        );
+    public static final StreamCodec<ByteBuf, PlayerData> STREAM_CODEC = StreamCodec.of(
+        (buf, data) -> {
+            MiningData.STREAM_CODEC.encode(buf, data.getMiningData());
+            Profession.STREAM_CODEC.encode(buf, data.getProfession());
+            Race.STREAM_CODEC.encode(buf, data.getRace());
+            PlayerClass.STREAM_CODEC.encode(buf, data.getPlayerClass());
+            ByteBufCodecs.INT.encode(buf, data.getAvatarLine());
+            StatData.STREAM_CODEC.encode(buf, data.getStatData());
+            SkillBarData.STREAM_CODEC.encode(buf, data.getSkillBarData());
+        },
+        buf -> new PlayerData(
+            MiningData.STREAM_CODEC.decode(buf),
+            Profession.STREAM_CODEC.decode(buf),
+            Race.STREAM_CODEC.decode(buf),
+            PlayerClass.STREAM_CODEC.decode(buf),
+            ByteBufCodecs.INT.decode(buf),
+            StatData.STREAM_CODEC.decode(buf),
+            SkillBarData.STREAM_CODEC.decode(buf)
+        )
+    );
 
     //stats
     public StatData getStatData() {
         return statData;
+    }
+
+    public SkillBarData getSkillBarData() {
+        return skillBarData;
     }
 
     //raza

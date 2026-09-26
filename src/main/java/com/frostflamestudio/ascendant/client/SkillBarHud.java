@@ -1,6 +1,8 @@
 package com.frostflamestudio.ascendant.client;
 
 import com.frostflamestudio.ascendant.AscendantMod;
+import com.frostflamestudio.ascendant.registry.ModAttachments;
+import com.frostflamestudio.ascendant.data.SkillBarData;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -31,7 +33,7 @@ public class SkillBarHud {
             return;
         }
 
-        int slots = 5;
+        int slots = SkillBarData.SLOT_COUNT;
         int size = 22;
         int gap = 3;
 
@@ -52,6 +54,20 @@ public class SkillBarHud {
             guiGraphics.fill(slotX, y2 - 1, x2, y2, border);
             guiGraphics.fill(slotX, y, slotX + 1, y2, border);
             guiGraphics.fill(x2 - 1, y, x2, y2, border);
+
+            var skill = minecraft.player.getData(ModAttachments.PLAYER_DATA)
+                .getSkillBarData()
+                .get(i);
+            if (skill != null) {
+                guiGraphics.fill(slotX + 3, y + 3, x2 - 3, y2 - 3, 0xC0C0A060);
+                guiGraphics.drawString(
+                    minecraft.font,
+                    skill.getBarLabel(),
+                    slotX + 4,
+                    y + 7,
+                    0xFFFFFF
+                );
+            }
         }
     }
 }

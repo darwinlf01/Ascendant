@@ -857,9 +857,37 @@ Sala waiting: `ConfirmClassScreen` pinta el mismo lore bajo `Choose %s?`. Yes/No
 
 ---
 
+`Skill`: 3 skills de Archer. `BASIC_ARCHERY` y `BASIC_ONE_HANDED` pasivas Inferior; `ARCHERS_EYE` activa Common. Sin efectos de combate.
+
+---
+
+Pestaña Skills: lista `[Nombre (Grado)] — tipo` de `Skill.values()` cuya clase coincide. Vacía si no hay ninguna.
+
+---
+
+Clic en skill: `inspectingSkill` (null = cerrado). Panel con `getDisplayName()` + `getDescription()`. Done lo pone a null.
+
+---
+
+`SkillBarData` en NBT (`slot0`–`slot4`) y en el codec. `PlayerData` lo guarda en `"skill_bar"` y lo manda al final del `StreamCodec.of`. Aún nadie llama a `set`.
+
+---
+
+`SkillSystem.assignSlot`: solo activa, de tu clase, hueco 0–4. `set` + `syncData`. `NetworkEvents` registra `AssignSkillSlotPayload`.
+
+---
+
+Botones 1–5 en el panel de una skill activa. Mandan `AssignSkillSlotPayload` con índice 0–4.
+
+---
+
+`SkillBarHud` lee `get(i)`. Hueco ocupado: relleno dorado + `getBarLabel()` (`archers_eye.bar` → "Eye"). Sin efecto al usar.
+
+---
+
 # Próxima lección
 
-Inspección de profesión cuando haya lore, o commit del menú + popup.
+Push de la barra de skills si quieres. Luego: tecla para marcar el hueco seleccionado. El efecto de Archer's Eye espera al combate.
 
 ---
 
