@@ -6,6 +6,7 @@ import com.frostflamestudio.ascendant.network.SelectIdentityPayload;
 import com.frostflamestudio.ascendant.system.CharacterSystem;
 import com.frostflamestudio.ascendant.network.AssignSkillSlotPayload;
 import com.frostflamestudio.ascendant.system.SkillSystem;
+import com.frostflamestudio.ascendant.network.UseSkillPayload;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -26,6 +27,11 @@ public class NetworkEvents {
             AssignSkillSlotPayload.STREAM_CODEC,
             NetworkEvents::onAssignSkillSlot
         );
+        event.registrar("1").playToServer(
+            UseSkillPayload.TYPE,
+            UseSkillPayload.STREAM_CODEC,
+            NetworkEvents::onUseSkill
+        );
     }
 
     public static void onSelectIdentity(SelectIdentityPayload payload, IPayloadContext context) {
@@ -40,5 +46,9 @@ public class NetworkEvents {
 
     public static void onAssignSkillSlot(AssignSkillSlotPayload payload, IPayloadContext context) {
         SkillSystem.assignSlot(context.player(), payload.skill(), payload.slot());
+    }
+
+    public static void onUseSkill(UseSkillPayload payload, IPayloadContext context) {
+        SkillSystem.use(context.player(), payload.skill());
     }
 }

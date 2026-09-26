@@ -885,9 +885,21 @@ Botones 1–5 en el panel de una skill activa. Mandan `AssignSkillSlotPayload` c
 
 ---
 
+`SkillBarHud` lee `get(i)`. Hueco ocupado: relleno dorado + `getBarLabel()` (`archers_eye.bar` → "Eye"). Sin efecto al usar.
+
+---
+
+`IDENTIFY`: activa, Inferior, racial. `isKnownBy` si la raza no es `NONE`. Lista, clic y `assignSlot` usan `isKnownBy`.
+
+---
+
+Identify con tecla **R** (`USE_IDENTIFY`), registrada junto al menú. Solo si no hay pantalla. `UseSkillPayload` → rayo de 5 bloques. No va a la barra.
+
+---
+
 # Próxima lección
 
-Push de la barra de skills si quieres. Luego: tecla para marcar el hueco seleccionado. El efecto de Archer's Eye espera al combate.
+Push de Identify si quieres. Luego otra pieza del menú, la barra o el combate.
 
 ---
 

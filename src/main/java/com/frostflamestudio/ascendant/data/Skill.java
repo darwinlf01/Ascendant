@@ -8,7 +8,8 @@ import net.minecraft.network.codec.StreamCodec;
 public enum Skill {
     BASIC_ARCHERY(PlayerClass.ARCHER, Kind.PASSIVE, Grade.INFERIOR),
     BASIC_ONE_HANDED(PlayerClass.ARCHER, Kind.PASSIVE, Grade.INFERIOR),
-    ARCHERS_EYE(PlayerClass.ARCHER, Kind.ACTIVE, Grade.COMMON);
+    ARCHERS_EYE(PlayerClass.ARCHER, Kind.ACTIVE, Grade.COMMON),
+    IDENTIFY(Kind.ACTIVE, Grade.INFERIOR);
 
     public enum Kind {
         PASSIVE,
@@ -21,6 +22,7 @@ public enum Skill {
     }
 
     private final PlayerClass playerClass;
+    private final boolean racial;
     private final Kind kind;
     private final Grade grade;
 
@@ -28,10 +30,29 @@ public enum Skill {
         this.playerClass = playerClass;
         this.kind = kind;
         this.grade = grade;
+        this.racial = false;
+    }
+
+    Skill(Kind kind, Grade grade) {
+        this.playerClass = null;
+        this.racial = true;
+        this.kind = kind;
+        this.grade = grade;
     }
 
     public PlayerClass getPlayerClass() {
         return playerClass;
+    }
+
+    public boolean isKnownBy(PlayerData playerData) {
+        if (racial) {
+            return playerData.getRace() != Race.NONE;
+        }
+        return playerData.getPlayerClass() == playerClass;
+    }
+
+    public boolean goesOnBar() {
+        return kind == Kind.ACTIVE && !racial;
     }
 
     public Kind getKind() {

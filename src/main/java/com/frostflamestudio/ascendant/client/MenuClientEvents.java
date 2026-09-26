@@ -2,7 +2,10 @@ package com.frostflamestudio.ascendant.client;
 
 import com.frostflamestudio.ascendant.AscendantMod;
 import com.mojang.blaze3d.platform.InputConstants;
+import com.frostflamestudio.ascendant.data.Skill;
+import com.frostflamestudio.ascendant.network.UseSkillPayload;
 
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
@@ -19,9 +22,16 @@ public class MenuClientEvents {
         "key.categories.ascendant"
     );
 
+    public static final KeyMapping USE_IDENTIFY = new KeyMapping(
+        "key.ascendant.identify",
+        InputConstants.KEY_R,
+        "key.categories.ascendant"
+    );
+
     @SubscribeEvent
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(OPEN_MENU);
+        event.register(USE_IDENTIFY);
     }
 
     @SubscribeEvent
@@ -36,6 +46,12 @@ public class MenuClientEvents {
                 minecraft.screen.onClose();
             } else if (minecraft.screen == null) {
                 minecraft.setScreen(new AscendantMenuScreen());
+            }
+        }
+
+        while (USE_IDENTIFY.consumeClick()) {
+            if (minecraft.screen == null) {
+                PacketDistributor.sendToServer(new UseSkillPayload(Skill.IDENTIFY));
             }
         }
     }

@@ -75,6 +75,13 @@
   "skill.ascendant.grade.common": "Common",
   "skill.ascendant.kind.passive": "Passive",
   "skill.ascendant.kind.active": "Active",
+  "skill.ascendant.identify": "Identify",
+  "skill.ascendant.identify.description": "Basic identification skill, known by all but the smallest of children of the myriad races. The skill allows you to attempt to identify any object or creature you are focusing on.",
+  "skill.ascendant.identify.bar": "Id",
+  "screen.ascendant.skill_use": "Use",
+  "message.ascendant.identify.nothing": "Nothing to identify.",
+  "message.ascendant.identify.block": "Block: %s",
+  "message.ascendant.identify.entity": "Creature: %s",
 
   "profession.ascendant.none": "None",
   "profession.ascendant.mining": "Miner",
@@ -86,6 +93,7 @@
 
   "screen.ascendant.menu": "Ascendant",
   "key.ascendant.menu": "Open Ascendant Menu",
+  "key.ascendant.identify": "Identify",
   "key.categories.ascendant": "Ascendant",
 
   "screen.ascendant.tab.status": "Status",

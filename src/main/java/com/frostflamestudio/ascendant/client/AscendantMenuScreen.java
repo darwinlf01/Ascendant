@@ -46,8 +46,7 @@ public class AscendantMenuScreen extends Screen {
                     .build()
             );
 
-            if (this.inspectingSkill != null
-                && this.inspectingSkill.getKind() == Skill.Kind.ACTIVE) {
+            if (this.inspectingSkill != null && this.inspectingSkill.goesOnBar()) {
                 int slotWidth = 24;
                 int slotGap = 4;
                 int slotCount = 5;
@@ -248,12 +247,12 @@ public class AscendantMenuScreen extends Screen {
             if (player == null) {
                 return;
             }
-            var playerClass = player.getData(ModAttachments.PLAYER_DATA).getPlayerClass();
-        
+            var playerData = player.getData(ModAttachments.PLAYER_DATA);
+
             int y = 80;
             boolean any = false;
             for (var skill : Skill.values()) {
-                if (skill.getPlayerClass() != playerClass) {
+                if (!skill.isKnownBy(playerData)) {
                     continue;
                 }
                 any = true;
@@ -438,12 +437,12 @@ public class AscendantMenuScreen extends Screen {
             && button == 0) {
             var player = Minecraft.getInstance().player;
             if (player != null) {
-                var playerClass = player.getData(ModAttachments.PLAYER_DATA).getPlayerClass();
+                var playerData = player.getData(ModAttachments.PLAYER_DATA);
                 int y = 80;
                 int left = this.width / 2 - 160;
                 int right = this.width / 2 + 160;
                 for (var skill : Skill.values()) {
-                    if (skill.getPlayerClass() != playerClass) {
+                    if (!skill.isKnownBy(playerData)) {
                         continue;
                     }
                     if (mouseX >= left && mouseX < right
