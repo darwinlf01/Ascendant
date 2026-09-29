@@ -126,5 +126,8 @@
   "message.ascendant.stat.strength": "Strength: %s",
   "message.ascendant.stat_set": "%s: %s",
 
-  "npc.ascendant.avatar": "Guide"
+  "npc.ascendant.avatar": "Guide",
+
+  "curios.identifier.quiver": "Quiver",
+  "item.ascendant.leather_quiver.arrows": "Arrows: %s / %s"
 }

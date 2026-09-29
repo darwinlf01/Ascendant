@@ -8,6 +8,8 @@ import com.frostflamestudio.ascendant.registry.ModCreativeTabs;
 import com.frostflamestudio.ascendant.registry.ModEntities;
 import com.frostflamestudio.ascendant.registry.ModItems;
 import com.mojang.logging.LogUtils;
+import com.frostflamestudio.ascendant.item.ArcherCloakCurio;
+import com.frostflamestudio.ascendant.item.HolySealCurio;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -45,7 +47,14 @@ public class AscendantMod {
 
     private void commonSetup(FMLCommonSetupEvent event) {
         // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
+        top.theillusivec4.curios.api.CuriosApi.registerCurio(
+            ModItems.ARCHER_CLOAK.get(),
+            new ArcherCloakCurio()
+        );
+        top.theillusivec4.curios.api.CuriosApi.registerCurio(
+            ModItems.HOLY_SEAL.get(),
+            new HolySealCurio()
+        );
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

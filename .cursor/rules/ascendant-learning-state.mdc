@@ -897,9 +897,69 @@ Identify con tecla **R** (`USE_IDENTIFY`), registrada junto al menú. Solo si no
 
 ---
 
+Daga: `SwordItem`, `Tiers.IRON`, extra 1, velocidad −1.6. Mano principal.
+
+---
+
+Espadas: larga extra 3 / −2.6; una mano extra 2 / −2.2. Mismo `Tiers.IRON` que la daga.
+
+---
+
+Bastón: `SwordItem` + `Tiers.WOOD`, extra 2, velocidad −2.8.
+
+---
+
+Arco: `BowItem`, durabilidad 128. Sin animación de tensado.
+
+---
+
+Escudo: `ShieldItem`, durabilidad 168. Mano secundaria.
+
+---
+
+`LIGHT_LEATHER`: `ArmorItem` pecho, `ArmorMaterials.LEATHER`, durabilidad `getDurability(5)`. 3 de armadura. Sin capa en el cuerpo.
+
+---
+
+Pecheras: cuero ligero (cuero, factor 5), remachado (cota, 15), malla (hierro, 15). Túnicas aún `Item`.
+
+---
+
+Túnicas: `ArmorItem` pecho, cuero, factor 5.
+
+---
+
+Capa, sello y carcaj: tags `curios:back`, `curios:charm` y ranura `quiver` (size 1) en el jugador. Sin efectos. `neoforge.mods.toml` aún no declara la dependencia.
+
+---
+
+Curios en `neoforge.mods.toml`: `required`, rango `[9.5.1+1.21.1,)`, `ordering` AFTER.
+
+---
+
+Capa: `ArcherCloakCurio` + `CuriosApi.registerCurio`. +4 % de velocidad en `back`.
+
+---
+
+Sello: `HolySealCurio`, `MAX_HEALTH` +2 al llevarlo en `charm`.
+
+---
+
+Carcaj: `LeatherQuiverItem`, 16 flechas en `CUSTOM_DATA` al crear el stack. Tooltip `Arrows: %s / %s`.
+
+---
+
+Al disparar, si el carcaj equipado tiene flechas, el arco las usa y resta 1. A 0, usa las del inventario.
+
+---
+
+Clic derecho con el carcaj en la mano: `QuiverSystem.infuse`, 1 de mana = 1 flecha, hasta `ARROW_CAPACITY`. Servidor y `syncData`.
+
+---
+
 # Próxima lección
 
-Push de Identify si quieres. Luego otra pieza del menú, la barra o el combate.
+Push del equipo equipable si quieres. Luego otro sistema (efectos de capa/sello ya están; el carcaj ya gasta y recarga).
 
 ---
 

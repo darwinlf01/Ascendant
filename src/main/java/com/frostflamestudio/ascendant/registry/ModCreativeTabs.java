@@ -1,6 +1,7 @@
 package com.frostflamestudio.ascendant.registry;
 
 import com.frostflamestudio.ascendant.AscendantMod;
+import com.frostflamestudio.ascendant.item.LeatherQuiverItem;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -33,6 +34,6 @@ public class ModCreativeTabs {
             output.accept(ModItems.LIGHT_LEATHER.get());
             output.accept(ModItems.RIVETED_LEATHER.get());
             output.accept(ModItems.IRON_MAIL.get());
-            output.accept(ModItems.LEATHER_QUIVER.get());
+            output.accept(LeatherQuiverItem.createStack());
         }).build());
 }

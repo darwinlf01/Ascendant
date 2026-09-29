@@ -5,6 +5,7 @@ import com.frostflamestudio.ascendant.registry.ModItems;
 import com.frostflamestudio.ascendant.data.Race;
 import com.frostflamestudio.ascendant.data.PlayerClass;
 import com.frostflamestudio.ascendant.data.StatType;
+import com.frostflamestudio.ascendant.item.LeatherQuiverItem;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -158,7 +159,7 @@ public class CharacterSystem {
                 player.addItem(new ItemStack(ModItems.WOODEN_BOW.get()));
                 player.addItem(new ItemStack(ModItems.STEEL_DAGGER.get()));
                 player.addItem(new ItemStack(ModItems.ARCHER_CLOAK.get()));
-                player.addItem(new ItemStack(ModItems.LEATHER_QUIVER.get()));
+                player.addItem(LeatherQuiverItem.createStack());
                 break;
             case CASTER:
                 player.addItem(new ItemStack(ModItems.WOODEN_STAFF.get()));

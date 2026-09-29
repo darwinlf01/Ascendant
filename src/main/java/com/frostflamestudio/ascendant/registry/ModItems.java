@@ -1,12 +1,19 @@
 package com.frostflamestudio.ascendant.registry;
 
 import com.frostflamestudio.ascendant.AscendantMod;
+import com.frostflamestudio.ascendant.item.LeatherQuiverItem;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterials;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS =
@@ -24,41 +31,47 @@ public class ModItems {
             ModBlocks.MANA_CRYSTAL_BLOCK
         );
     
-    public static final DeferredItem<Item> WOODEN_STAFF = 
-        ITEMS.registerSimpleItem(
-            "wooden_staff",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<SwordItem> WOODEN_STAFF =
+        ITEMS.register("wooden_staff", () -> new SwordItem(
+            Tiers.WOOD,
+            new Item.Properties()
+                .stacksTo(1)
+                .attributes(SwordItem.createAttributes(Tiers.WOOD, 2, -2.8f))
+        ));
 
-    public static final DeferredItem<Item> STEEL_DAGGER = 
-        ITEMS.registerSimpleItem(
-            "steel_dagger",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<SwordItem> STEEL_DAGGER =
+        ITEMS.register("steel_dagger", () -> new SwordItem(
+            Tiers.IRON,
+            new Item.Properties()
+                .stacksTo(1)
+                .attributes(SwordItem.createAttributes(Tiers.IRON, 1, -1.6f))
+        ));
 
-    public static final DeferredItem<Item> WOODEN_BOW = 
-        ITEMS.registerSimpleItem(
-            "wooden_bow",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<BowItem> WOODEN_BOW =
+        ITEMS.register("wooden_bow", () -> new BowItem(
+            new Item.Properties().durability(128)
+        ));
 
-    public static final DeferredItem<Item> STEEL_LONGSWORD = 
-        ITEMS.registerSimpleItem(
-            "steel_longsword",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<SwordItem> STEEL_LONGSWORD =
+        ITEMS.register("steel_longsword", () -> new SwordItem(
+            Tiers.IRON,
+            new Item.Properties()
+                .stacksTo(1)
+                .attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.6f))
+        ));
 
-    public static final DeferredItem<Item> HEATER_SHIELD = 
-        ITEMS.registerSimpleItem(
-            "heater_shield",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<ShieldItem> HEATER_SHIELD =
+        ITEMS.register("heater_shield", () -> new ShieldItem(
+            new Item.Properties().durability(168)
+        ));
 
-    public static final DeferredItem<Item> STEEL_ARMING_SWORD = 
-        ITEMS.registerSimpleItem(
-            "steel_arming_sword",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<SwordItem> STEEL_ARMING_SWORD =
+        ITEMS.register("steel_arming_sword", () -> new SwordItem(
+            Tiers.IRON,
+            new Item.Properties()
+                .stacksTo(1)
+                .attributes(SwordItem.createAttributes(Tiers.IRON, 2, -2.2f))
+        ));
     
     public static final DeferredItem<Item> HOLY_SEAL = 
         ITEMS.registerSimpleItem(
@@ -72,39 +85,43 @@ public class ModItems {
             new Item.Properties().stacksTo(1)
         );
 
-    public static final DeferredItem<Item> CASTER_ROBE = 
-        ITEMS.registerSimpleItem(
-            "caster_robe",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<ArmorItem> CASTER_ROBE =
+        ITEMS.register("caster_robe", () -> new ArmorItem(
+            ArmorMaterials.LEATHER,
+            ArmorItem.Type.CHESTPLATE,
+            new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(5))
+        ));
     
-    public static final DeferredItem<Item> HEALER_ROBE = 
-        ITEMS.registerSimpleItem(
-            "healer_robe",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<ArmorItem> HEALER_ROBE =
+        ITEMS.register("healer_robe", () -> new ArmorItem(
+            ArmorMaterials.LEATHER,
+            ArmorItem.Type.CHESTPLATE,
+            new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(5))
+        ));
 
-    public static final DeferredItem<Item> LIGHT_LEATHER = 
-        ITEMS.registerSimpleItem(
-            "light_leather",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<ArmorItem> LIGHT_LEATHER =
+        ITEMS.register("light_leather", () -> new ArmorItem(
+            ArmorMaterials.LEATHER,
+            ArmorItem.Type.CHESTPLATE,
+            new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(5))
+        ));
 
-    public static final DeferredItem<Item> RIVETED_LEATHER = 
-        ITEMS.registerSimpleItem(
-            "riveted_leather",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<ArmorItem> RIVETED_LEATHER =
+        ITEMS.register("riveted_leather", () -> new ArmorItem(
+            ArmorMaterials.CHAIN,
+            ArmorItem.Type.CHESTPLATE,
+            new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(15))
+        ));
 
-    public static final DeferredItem<Item> IRON_MAIL = 
-        ITEMS.registerSimpleItem(
-            "iron_mail",
-            new Item.Properties().stacksTo(1)
-        );
+    public static final DeferredItem<ArmorItem> IRON_MAIL =
+        ITEMS.register("iron_mail", () -> new ArmorItem(
+            ArmorMaterials.IRON,
+            ArmorItem.Type.CHESTPLATE,
+            new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(15))
+        ));
 
-    public static final DeferredItem<Item> LEATHER_QUIVER = 
-        ITEMS.registerSimpleItem(
-            "leather_quiver",
+    public static final DeferredItem<LeatherQuiverItem> LEATHER_QUIVER =
+        ITEMS.register("leather_quiver", () -> new LeatherQuiverItem(
             new Item.Properties().stacksTo(1)
-        );
+        ));
 }
