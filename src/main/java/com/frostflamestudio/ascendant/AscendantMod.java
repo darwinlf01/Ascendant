@@ -2,6 +2,7 @@ package com.frostflamestudio.ascendant;
 
 import org.slf4j.Logger;
 
+import com.frostflamestudio.ascendant.registry.ModArmorMaterials;
 import com.frostflamestudio.ascendant.registry.ModAttachments;
 import com.frostflamestudio.ascendant.registry.ModBlocks;
 import com.frostflamestudio.ascendant.registry.ModCreativeTabs;
@@ -39,6 +40,7 @@ public class AscendantMod {
         NeoForge.EVENT_BUS.register(this);
 
         ModCreativeTabs.TABS.register(modEventBus);
+        ModArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModAttachments.ATTACHMENTS.register(modEventBus);

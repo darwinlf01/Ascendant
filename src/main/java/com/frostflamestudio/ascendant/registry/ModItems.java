@@ -13,7 +13,6 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterials;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS =
@@ -87,35 +86,35 @@ public class ModItems {
 
     public static final DeferredItem<ArmorItem> CASTER_ROBE =
         ITEMS.register("caster_robe", () -> new ArmorItem(
-            ArmorMaterials.LEATHER,
+            ModArmorMaterials.CASTER_ROBE,
             ArmorItem.Type.CHESTPLATE,
             new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(5))
         ));
     
     public static final DeferredItem<ArmorItem> HEALER_ROBE =
         ITEMS.register("healer_robe", () -> new ArmorItem(
-            ArmorMaterials.LEATHER,
+            ModArmorMaterials.HEALER_ROBE,
             ArmorItem.Type.CHESTPLATE,
             new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(5))
         ));
 
     public static final DeferredItem<ArmorItem> LIGHT_LEATHER =
         ITEMS.register("light_leather", () -> new ArmorItem(
-            ArmorMaterials.LEATHER,
+            ModArmorMaterials.LIGHT_LEATHER,
             ArmorItem.Type.CHESTPLATE,
             new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(5))
         ));
 
     public static final DeferredItem<ArmorItem> RIVETED_LEATHER =
         ITEMS.register("riveted_leather", () -> new ArmorItem(
-            ArmorMaterials.CHAIN,
+            ModArmorMaterials.RIVETED_LEATHER,
             ArmorItem.Type.CHESTPLATE,
             new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(15))
         ));
 
     public static final DeferredItem<ArmorItem> IRON_MAIL =
         ITEMS.register("iron_mail", () -> new ArmorItem(
-            ArmorMaterials.IRON,
+            ModArmorMaterials.IRON_MAIL,
             ArmorItem.Type.CHESTPLATE,
             new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(15))
         ));

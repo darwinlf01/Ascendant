@@ -957,9 +957,17 @@ Clic derecho con el carcaj en la mano: `QuiverSystem.infuse`, 1 de mana = 1 flec
 
 ---
 
+Pecheras: material propio y textura de capa en pecho y brazos.
+
+---
+
+Curios en el cuerpo: `WornCurioRenderer` pinta el icono. Capa en la espalda, carcaj al lado, sello en el pecho.
+
+---
+
 # Próxima lección
 
-Push del equipo equipable si quieres. Luego otro sistema (efectos de capa/sello ya están; el carcaj ya gasta y recarga).
+Push de las texturas de equipo si quieres, o ajustar la pose de los curios.
 
 ---
 
