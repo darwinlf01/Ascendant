@@ -5,6 +5,7 @@ import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -44,24 +45,31 @@ public class WornCurioRenderer implements ICurioRenderer {
     ) {
         LivingEntity entity = slotContext.entity();
         poseStack.pushPose();
-        ICurioRenderer.translateIfSneaking(poseStack, entity);
-        ICurioRenderer.rotateIfSneaking(poseStack, entity);
-
-        switch (this.placement) {
-            case BACK -> poseStack.translate(0.0, 0.55, 0.20);
-            case SIDE -> {
+        if (this.placement == Placement.BACK) {
+            followTorso(poseStack, renderLayerParent);
+            poseStack.translate(-0.12, 0.40, 0.36);
+            poseStack.mulPose(Axis.ZP.rotationDegrees(-10));
+        } else {
+            ICurioRenderer.translateIfSneaking(poseStack, entity);
+            ICurioRenderer.rotateIfSneaking(poseStack, entity);
+            if (this.placement == Placement.SIDE) {
                 poseStack.translate(0.20, 0.65, 0.16);
                 poseStack.mulPose(Axis.ZP.rotationDegrees(-18));
+            } else {
+                poseStack.translate(0.0, 0.60, -0.20);
             }
-            case CHEST -> poseStack.translate(0.0, 0.60, -0.20);
         }
 
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
         if (this.placement != Placement.CHEST) {
             poseStack.mulPose(Axis.YP.rotationDegrees(180));
         }
-        float scale = this.placement == Placement.CHEST ? 0.22F : 0.38F;
-        poseStack.scale(scale, scale, scale);
+        if (this.placement == Placement.BACK) {
+            poseStack.scale(0.40F, 0.55F, 0.40F);
+        } else {
+            float scale = this.placement == Placement.CHEST ? 0.22F : 0.38F;
+            poseStack.scale(scale, scale, scale);
+        }
 
         Minecraft.getInstance().getItemRenderer().renderStatic(
             stack,
@@ -74,5 +82,14 @@ public class WornCurioRenderer implements ICurioRenderer {
             entity.getId()
         );
         poseStack.popPose();
+    }
+
+    private static <T extends LivingEntity, M extends EntityModel<T>> void followTorso(
+        PoseStack poseStack,
+        RenderLayerParent<T, M> renderLayerParent
+    ) {
+        if (renderLayerParent.getModel() instanceof HumanoidModel<?> humanoid) {
+            humanoid.body.translateAndRotate(poseStack);
+        }
     }
 }

@@ -957,17 +957,17 @@ Clic derecho con el carcaj en la mano: `QuiverSystem.infuse`, 1 de mana = 1 flec
 
 ---
 
-Pecheras: material propio y textura de capa en pecho y brazos.
+Pecheras: material propio. Textura de capa a 256×128: cuero con grano y costura, brigandina de remaches, malla de anillos, lana y lino con pliegues. Manga del ligero corta.
 
 ---
 
-Curios en el cuerpo: `WornCurioRenderer` pinta el icono. Capa en la espalda, carcaj al lado, sello en el pecho.
+Curios en el cuerpo: el carcaj es un tubo de cuero con correa y flechas (`LeatherQuiverRenderer`), por fuera de la capa. El sello es un collar (`HolySealRenderer`): cordón al cuello y medallón en el pecho. La capa usa `ArcherCloakRenderer`: manto algo más largo y de una sola capa de tela, capucha solapada con el cuello y pliegues metidos en el yugo. Textura 256×256.
 
 ---
 
 # Próxima lección
 
-Push de las texturas de equipo si quieres, o ajustar la pose de los curios.
+Ajustar largo o color de la capa, o el siguiente sistema que pidas.
 
 ---
 

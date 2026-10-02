@@ -14,18 +14,9 @@ public class CurioClientEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            CuriosRendererRegistry.register(
-                ModItems.ARCHER_CLOAK.get(),
-                () -> new WornCurioRenderer(WornCurioRenderer.Placement.BACK)
-            );
-            CuriosRendererRegistry.register(
-                ModItems.LEATHER_QUIVER.get(),
-                () -> new WornCurioRenderer(WornCurioRenderer.Placement.SIDE)
-            );
-            CuriosRendererRegistry.register(
-                ModItems.HOLY_SEAL.get(),
-                () -> new WornCurioRenderer(WornCurioRenderer.Placement.CHEST)
-            );
+            CuriosRendererRegistry.register(ModItems.ARCHER_CLOAK.get(), ArcherCloakRenderer::new);
+            CuriosRendererRegistry.register(ModItems.LEATHER_QUIVER.get(), LeatherQuiverRenderer::new);
+            CuriosRendererRegistry.register(ModItems.HOLY_SEAL.get(), HolySealRenderer::new);
         });
     }
 }
